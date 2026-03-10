@@ -13,6 +13,5 @@ Currently available built-in modules:
  - MVC (Model View Controller) model
  - Templating Engine
  - Email Service (Simply SMTP)
- - API Manager (create new API routes easily)
- - Accounts (Middleware)
+ - Elegent Database handler
  - Simple Domain-Whitelist feature

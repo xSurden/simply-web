@@ -1,6 +1,6 @@
 {
     "name": "surden/simply-web",
-    "description": "Simply-Web is a lightweight PHP framework - designed to work on most hosting providers. Built for fun and pretty much just a playground.",
+    "description": "Light near native PHP framework. Just a fun playground for quick web development.",
     "autoload": {
         "psr-4": {
             "SW\\Source\\": "src/"
