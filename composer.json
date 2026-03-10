@@ -1,0 +1,18 @@
+{
+    "name": "surden/simply-web",
+    "description": "Simply-Web is a lightweight PHP framework - designed to work on most hosting providers. Built for fun and pretty much just a playground.",
+    "autoload": {
+        "psr-4": {
+            "SW\\Source\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "TheSilentNoob1271",
+            "email": "teeyaim@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.0"
+    }
+}
