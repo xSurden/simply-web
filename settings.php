@@ -3,7 +3,7 @@
     return [
 
         "app_name" => "Simply-Web Application",
-        "trusted_hosts" => ["localhost"],
+        "trusted_domains" => ["localhost"],
 
         "email-settings" => [
             "host" => "mail.domain.com",
