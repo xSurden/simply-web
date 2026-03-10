@@ -3,13 +3,13 @@
     return [
 
         "app_name" => "Simply-Web Application",
-        "app_url" => ["localhost"],
+        "trusted_hosts" => ["localhost"],
 
         "email-settings" => [
-            "host" => "mail.surden.me",
-            "port" => 587,
-            "username" => "dev.mail@surden.me",
-            "password" => "Teeyai889933!@",
+            "host" => "mail.domain.com",
+            "port" => 25,
+            "username" => "noreply@domain.com",
+            "password" => "password",
             "encryption" => "tls"
         ]
 
