@@ -4,10 +4,11 @@ I have created this project because I got bored, and PHP can be quite annoying t
 Requirements:
  - PHP 8.2 and higher (up to 8.5), any PHP version over 8.0 should still work.
  - Ability to make /public the web root folder. 
+ - .htaccess compatibility
 
 Our goals:
  - Lightweight
- - Available on any platform (HestiaCP)
+ - Available on any platform (e.g. HestiaCP, XAMPP, Apache2)
  - Minimal dependencies (PHP 8.0+)
  - Simple Syntax
 
@@ -18,6 +19,7 @@ Planned built-in modules:
  - Email Service (Easier Email Service)
  - Elegant Database handler (WIP)
  - Simple Domain-Whitelist feature (New - possibly contains bugs)
+ - Basic account model (SimplyUsers) (WIP)
 
 If you are looking to use this framework, we are not responsible for any data loss or breaches. This is best for if you like to create a small development project, school work or just for fun and build on top of this framework. What I would use this for is:
  - Fan sites
