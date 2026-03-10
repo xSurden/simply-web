@@ -1,6 +1,6 @@
 <?php
 
-    namespace SW\Source\Model;
+    namespace SW\Source\Engine;
 
     class Router {
         public function Route($path) {

@@ -5,7 +5,7 @@
     define("ABSPATH", __DIR__ . "/..");
     require ABSPATH . "/vendor/autoload.php";
 
-    use SW\Source\Model\Router;
+    use SW\Source\Engine\Router;
     use SW\Source\Server\Web;
     $Web = new Web();
     $Router = new Router();

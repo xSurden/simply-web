@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Simply-Web web application</title>
+    <title>A new simply-web app</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -26,7 +26,7 @@
 
         .container {
             padding: 2rem;
-            animation: fadeIn 1.5s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .logo {
@@ -72,8 +72,8 @@
 
     <div class="container">
         
-        <h1>Simply-Web framework is now active</h1>
-        <p>If you see this, then you have created your Simply-Web web application.
+        <h1>A new Simply-Web app is now live.</h1>
+        <p>If you see this, then you have created your Simply-Web web application successfully.
             <br>
             You can now head over to your workspace to start creating simplified website or applications.<br>
             using pure PHP without the need for complex frameworks.
