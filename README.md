@@ -20,9 +20,12 @@ Planned built-in modules:
  - Elegant Database handler (WIP)
  - Simple Domain-Whitelist feature (New - possibly contains bugs)
  - Basic account model (SimplyUsers) (WIP)
+ - Package Manager 
+ - CLI (Tested on Windows 11)
 
 If you are looking to use this framework, we are not responsible for any data loss or breaches. This is best for if you like to create a small development project, school work or just for fun and build on top of this framework. What I would use this for is:
  - Fan sites
  - Portfolio sites
  - Custom advanced sites (that does not hold multiple confidential & sensitive data)
  - License server
+

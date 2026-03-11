@@ -5,6 +5,8 @@
         "app_name" => "Simply-Web Application",
         "trusted_domains" => ["localhost", "simply-web-test.surden.me"],
 
+        "package_repository" => "https://repo.surden.me/packages/",
+
         "database" => [
             "host" => "cp.surden.me",
             "port" => 3306,
