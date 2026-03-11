@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A new simply-web app</title>
+    <title><?= $type ?></title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -72,9 +72,9 @@
 
     <div class="container">
         
-        <h1>A new Simply-Web app is now live.</h1>
+        <h1><?= $type ?> | <?= $code ?></h1>
         <p>
-            Now start writing your web app faster while sticking to the PHP like state. 
+            <?= $message ?>
         </p>
 
     </div>

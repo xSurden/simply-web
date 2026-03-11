@@ -1,10 +1,10 @@
 <?php 
 
-    namespace SW\Source\Models\SimplySql;
+    namespace SW\Source\Modules\SimplySql;
 
     class Database {
         /*
-            A database Models - used to manipulate the provided database easily.
+            A database Modules - used to manipulate the provided database easily.
         */
 
         // Class to create connection to the database
