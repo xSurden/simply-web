@@ -28,6 +28,25 @@
         }
 
         /*
+            Get all fields from a table
+        */
+        public function FetchAll($table) {
+            if (!$table) {
+                return [];
+            }
+
+            // sanitise the name
+            $table = preg_replace('/[^a-zA-Z0-9_]/', '', $table);
+
+            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $sql = "SELECT * FROM `$table`";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        /*
             Insert function
         */
         public function Insert($table = null, $data = []) {
