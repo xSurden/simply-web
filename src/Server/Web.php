@@ -12,8 +12,18 @@
             // Check if the domain the user is visiting from is valid
             if (!self::Validate()) {
                 // If the domain is not valid, we will display "Unauthorised domain" and stop processing the request. 
-                die("Invalid domain.");
+                $TemplateEngine = new \SW\Source\Engine\TemplateEngine();
+                $TemplateEngine->Render("server/invalid-domain");
+                exit();
             }
+        }
+
+        /*
+            This section is for server commands such as refresh page etc
+        */
+        public static function Refresh() {
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit();
         }
 
         private static function Validate() {

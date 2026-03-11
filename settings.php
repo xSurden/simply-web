@@ -3,7 +3,7 @@
     return [
 
         "app_name" => "Simply-Web Application",
-        "trusted_domains" => ["localhost"],
+        "trusted_domains" => ["localhost", "simply-web-test.surden.me"],
 
         "database" => [
             "host" => "cp.surden.me",
