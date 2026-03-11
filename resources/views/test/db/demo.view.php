@@ -1,5 +1,5 @@
 <?php
-    $DBPointer = new \SW\Source\Models\SimplySql\Pointer();
+    $DBPointer = new \SW\Source\Modules\SimplySql\Pointer();
     $tableName = "test_data";
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

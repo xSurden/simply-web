@@ -1,6 +1,6 @@
 <?php
 
-    namespace SW\Source\Models\SimplySql;
+    namespace SW\Source\Modules\SimplySql;
 
     class Pointer {
 
@@ -17,7 +17,7 @@
             $table = preg_replace('/[^a-zA-Z0-9_]/', '', $table);
             $column = preg_replace('/[^a-zA-Z0-9_]/', '', $column);
 
-            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
             $sql = "SELECT * FROM `$table` WHERE `$column` = :value LIMIT 1";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':value', $value);
@@ -38,7 +38,7 @@
             // sanitise the name
             $table = preg_replace('/[^a-zA-Z0-9_]/', '', $table);
 
-            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
             $sql = "SELECT * FROM `$table`";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
@@ -62,7 +62,7 @@
                 return ':' . preg_replace('/[^a-zA-Z0-9_]/', '', $field);
             }, $fields);
 
-            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
             $sql = "INSERT INTO `$table` (" . implode(', ', $fields) . ") VALUES (" . implode(', ', $placeholders) . ")";
             $stmt = $conn->prepare($sql);
 
@@ -94,7 +94,7 @@
                 $whereClauses[] = "`$sanitizedField` = :where_$sanitizedField";
             }
 
-            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
             $sql = "UPDATE `$table` SET " . implode(', ', $setClauses) . " WHERE " . implode(' AND ', $whereClauses);
             $stmt = $conn->prepare($sql);
 
@@ -125,7 +125,7 @@
                 $whereClauses[] = "`$sanitizedField` = :$sanitizedField";
             }
 
-            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
             $sql = "DELETE FROM `$table` WHERE " . implode(' AND ', $whereClauses);
             $stmt = $conn->prepare($sql);
 
@@ -145,7 +145,7 @@
             // Sanitise the table name
             $table = preg_replace('/[^a-zA-Z0-9_]/', '', $table);
 
-            $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
             $sql = "DROP TABLE IF EXISTS `$table`";
             $stmt = $conn->prepare($sql);
             return $stmt->execute();

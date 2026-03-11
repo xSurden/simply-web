@@ -25,24 +25,6 @@
         public function Register(){}
 
 
-        private function GetSession(){
-            if (!isset($_COOKIE['session_token'])) {
-                return null;
-            }
-
-            $token = $_COOKIE['session_token'];
-
-            $stmt = $this->pdo->prepare("
-                SELECT u.*
-                FROM users u
-                JOIN sessions s ON u.id = s.user_id
-                WHERE s.token = :token
-                AND s.expires_at > NOW()
-                LIMIT 1
-            ");
-
-            $stmt->execute([':token' => $token]);
-            return $stmt->fetch();
-        }
+        private function GetSession(){}
     }
 
