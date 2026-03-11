@@ -1,6 +1,6 @@
 <?php
 
-    namespace SW\Source\Model\SimplyUsers;
+    namespace SW\Source\Modules\SimplyUsers;
 
     class Auth {
 
