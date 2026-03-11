@@ -17,20 +17,18 @@
             $table = preg_replace('/[^a-zA-Z0-9_]/', '', $table);
             $column = preg_replace('/[^a-zA-Z0-9_]/', '', $column);
 
-            // create connection and fetch the data
             $conn = \SW\Source\Models\SimplySql\Database::GetConnection();
             $sql = "SELECT * FROM `$table` WHERE `$column` = :value LIMIT 1";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':value', $value);
             $stmt->execute();
 
-            // fetch the result and return
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $result ?: null;
         }
 
         /*
-            Inserting data into table/fields
+            Insert function
         */
         public function Insert($table = null, $data = []) {
             if (!$table || empty($data)) {
@@ -62,7 +60,7 @@
                 return false;
             }
 
-            // Sanitise the table name
+            // check names
             $table = preg_replace('/[^a-zA-Z0-9_]/', '', $table);
 
             $setClauses = [];
