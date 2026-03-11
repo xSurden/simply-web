@@ -1,6 +1,7 @@
 <?php
 
     session_start();
+    error_reporting(0);
 
     define("ABSPATH", __DIR__ . "/..");
     require ABSPATH . "/vendor/autoload.php";

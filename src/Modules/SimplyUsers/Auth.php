@@ -14,17 +14,12 @@
             Functions to manage users, including creating users, fetching user data, etc.
         */
 
-        public function Auth(){
-            $result = $this->GetSession();
-        }
+        public function Auth(){}
 
         public function Login(){}
 
         public function Logout(){}
 
         public function Register(){}
-
-
-        private function GetSession(){}
     }
 

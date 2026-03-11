@@ -3,17 +3,34 @@
     namespace SW\Source\Server;
 
     class Web {
+
+        private static $TemplateEngine;
+
+        public function __construct() 
+        {
+            self::Init();
+        }
+
+        private static function Init(){
+            if (self::$TemplateEngine === null) {
+                self::$TemplateEngine = new \SW\Source\Engine\TemplateEngine();
+            }
+        }
+
         public static function Start() {
             /*
                 Logic that will be executed when a web request is made to the app. 
                 This can be used for middleware, routing, and other custom logics you have made. 
             */
 
+            // Init and check for files
+            self::Init();
+            self::FileIntegrity();
+
             // Check if the domain the user is visiting from is valid
             if (!self::Validate()) {
                 // If the domain is not valid, we will display "Unauthorised domain" and stop processing the request. 
-                $TemplateEngine = new \SW\Source\Engine\TemplateEngine();
-                $TemplateEngine->Render("server/invalid-domain");
+                self::$TemplateEngine->Render("server/invalid-domain");
                 exit();
             }
         }
@@ -24,6 +41,23 @@
         public static function Refresh() {
             header("Location: " . $_SERVER['REQUEST_URI']);
             exit();
+        }
+
+        private static function FileIntegrity() {
+            /*
+                Check if the application core files are intact
+                
+                Checks for settings file. 
+            */
+
+            if (!file_exists(ABSPATH . "/settings.php")) {
+                $data = [
+                    "type" => "Error",
+                    "code" => 404,
+                    "message" => "Unable to load settings file. Please ensure settings.php exists"
+                ];
+                self::$TemplateEngine->Render("server/message", $data);
+            }
         }
 
         private static function Validate() {
