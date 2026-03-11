@@ -22,7 +22,6 @@ class EmailEngine {
         $mail = new PHPMailer(true);
 
         try {
-            // --- Server Settings using your Config ---
             $settings = $this->config['email-settings'];
 
             $mail->isSMTP();
@@ -30,18 +29,16 @@ class EmailEngine {
             $mail->SMTPAuth   = true;
             $mail->Username   = $settings['username'];
             $mail->Password   = $settings['password'];
-            $mail->SMTPSecure = $settings['encryption']; // "tls"
-            $mail->Port       = $settings['port'];       // 587
+            $mail->SMTPSecure = $settings['encryption'];
+            $mail->Port       = $settings['port'];   
 
-            // --- Recipients ---
             $mail->setFrom($settings['username'], $this->config['app_name']);
             $mail->addAddress($recipient);
 
-            // --- Content ---
             $mail->isHTML(true);
             $mail->Subject = $body['subject'] ?? "Message from " . $this->config['app_name'];
             $mail->Body    = $this->Build($body);
-            $mail->AltBody = strip_tags($mail->Body); // Plain text version
+            $mail->AltBody = strip_tags($mail->Body);
 
             return $mail->send();
 
@@ -51,35 +48,24 @@ class EmailEngine {
     }
 
     private function Build($body) {
-        // Here you can wrap your message in a standard HTML template
-        $content = $body['message'] ?? "";
+        $templateName = $body['template'] ?? 'default';
         
-        return "
-            <html>
-            <body style='font-family: sans-serif;'>
-                <div style='padding: 20px; border: 1px solid #eee;'>
-                    $content
-                </div>
-                <footer style='font-size: 12px; margin-top: 20px; color: #777;'>
-                    Sent via {$this->config['app_name']}
-                </footer>
-            </body>
-            </html>
-        ";
+        return self::LoadTemplate($templateName, [
+            'content'  => $body['message'] ?? '',
+            'app_name' => $this->config['app_name'],
+            'extra'    => $body['extra_data'] ?? []
+        ]);
     }
 
     public static function LoadTemplate($template, $data = []) {
-        // This method can be used to load and render email templates
         $templatePath = ABSPATH . "/resources/templates/{$template}.template.php";
         
         if (!file_exists($templatePath)) {
             throw new \Exception("Template not found: {$template}");
         }
 
-        // Extract data to variables for use in the template
         extract($data);
 
-        // Start output buffering to capture the template output
         ob_start();
         include $templatePath;
         return ob_get_clean();
