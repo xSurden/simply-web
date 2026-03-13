@@ -17,6 +17,23 @@
             }
         }
 
+        public static function RegisterCronTasks(array $tasks = []) {
+            if (!empty($tasks)) {
+                foreach ($tasks as $item) {
+                    $result = \SW\Source\Server\Utilities\Cron::Register($item["class"], $item["method"]);
+                    if (!$result) {
+                        $data = [
+                            "type" => "Error - Cron Failed",
+                            "code" => 00,
+                            "message" => "Our server failed to register certain cron tasks - which has broken our system."
+                        ];
+                        \SW\Source\Server\Engine\TemplateEngine::Render("server/message", $data);
+                        exit();
+                    }
+                }
+            }
+        }
+
         public static function Start() {
             /*
                 Logic that will be executed when a web request is made to the app. 

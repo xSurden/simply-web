@@ -3,6 +3,7 @@
     $tableName = "test_data";
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        \SW\Source\Server\Security\CSRF::Validate();
         if (isset($_POST['action']) && $_POST['action'] === 'update') {
             $DBPointer->Update($tableName, ["test_field" => $_POST['test_input']], ["id" => (int)$_POST['row_id']]);
             \SW\Source\Server\Web::Refresh(); exit;
@@ -55,6 +56,7 @@
         <div class="card">
             <h3 style="margin: 0 0 15px 0; font-size: 1rem;">Add New Record</h3>
             <form method="POST" style="display: flex; gap: 10px;">
+                <?php \SW\Source\Server\Security\CSRF::Insert() ?>
                 <input type="hidden" name="action" value="create">
                 <input type="text" name="new_value" placeholder="Enter content..." style="flex-grow: 1;" required>
                 <button type="submit" class="btn-primary">Add Row</button>
@@ -74,6 +76,7 @@
                                         <button class="btn-secondary" onclick="openEditModal(<?php echo $row['id']; ?>)">Edit</button>
                                         
                                         <form method="POST" style="margin:0;" onsubmit="return confirm('Delete this row?');">
+                                            <?php \SW\Source\Server\Security\CSRF::Insert() ?>
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="row_id" value="<?php echo $row['id']; ?>">
                                             <button type="submit" class="btn-danger">Delete</button>
@@ -94,6 +97,7 @@
         <div class="modal">
             <h3 style="margin-top: 0;">Edit Record</h3>
             <form method="POST">
+                <?php \SW\Source\Server\Security\CSRF::Insert() ?>
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="row_id" id="modal_row_id">
                 
