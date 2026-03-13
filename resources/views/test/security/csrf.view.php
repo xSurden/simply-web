@@ -1,20 +1,13 @@
 <?php
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $result = SW\Source\Server\Security\CSRF::Validate();
+        
+        // Validate the CSRF token
+        // Appending true will run the rotate function
+        SW\Source\Server\Security\CSRF::Validate(true);
 
-        if (!$result) {
-            $data = [
-                "type" => "Error - CSRF",
-                "code" => 405,
-                "message" => "We failed to validate your CSRF token - operation has been cancelled"
-            ];
-            SW\Source\Server\Engine\TemplateEngine::Render("server/message", $data);
-            exit();
-        }
-
+        // if passes do stuff
         echo "Received data securely!";
-        SW\Source\Server\Security\CSRF::Rotate();
     }
 
 ?>

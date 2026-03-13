@@ -23,9 +23,20 @@
             return '<input type="hidden" name="csrf_token" value="' . $token . '">';
         }
 
-        public static function Validate(): bool {
+        public static function Validate(bool $rotate = false): bool {
             if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token'])) {
-                return false;
+                
+                $data = [
+                    "type" => "Error - CSRF",
+                    "code" => 405,
+                    "message" => "We failed to validate your CSRF token - operation has been cancelled"
+                ];
+                \SW\Source\Server\Engine\TemplateEngine::Render("server/message", $data);
+                exit();
+            }
+
+            if ($rotate) {
+                self::Rotate();
             }
 
             return hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']);
