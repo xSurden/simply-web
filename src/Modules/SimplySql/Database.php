@@ -9,7 +9,7 @@
 
         // Class to create connection to the database
         public static function GetConnection() {
-            $db_config = \SW\Source\Engine\ConfigEngine::GetValue("database");
+            $db_config = \SW\Source\Server\Engine\ConfigEngine::GetValue("database");
             $host = $db_config["host"];
             $port = $db_config["port"];
             $username = $db_config["username"];

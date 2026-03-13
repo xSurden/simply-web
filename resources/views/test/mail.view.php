@@ -1,6 +1,6 @@
 <?php
     $config = require_once ABSPATH . "/settings.php";
-    $EmailEngine = new \SW\Source\Engine\EmailEngine($config);
+    $EmailEngine = new \SW\Source\Server\Engine\EmailEngine($config);
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $recipient = $_POST["email"] ?? null;
