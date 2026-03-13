@@ -1,7 +1,7 @@
 <?php
 
     // CSP protection
-    header("Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none';");
+    header("Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none';");
 
     // More secure session start
     ini_set('session.cookie_httponly', 1);
@@ -19,8 +19,8 @@
     require ABSPATH . "/vendor/autoload.php";
 
     // loading in the required class
-    use SW\Source\Server\Engine\Router;
-    use SW\Source\Server\Web;
+    use \SW\Source\Server\Engine\Router;
+    use \SW\Source\Server\Web;
 
     // init the class
     $WebServer = new Web();
