@@ -7,7 +7,7 @@
         SW\Source\Server\Security\CSRF::Validate(true);
 
         // if passes do stuff
-        echo "Received data securely!";
+        echo \SW\Source\Server\Utilities\Text::DisplayText("Received action securely!");
     }
 
 ?>
