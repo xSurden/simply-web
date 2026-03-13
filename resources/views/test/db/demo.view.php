@@ -41,8 +41,22 @@
 
         /* MODAL STYLES */
         .modal-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; 
+            visibility: hidden; /* Use visibility instead of just display */
+            opacity: 0;
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            display: flex; /* Keep this flex */
+            align-items: center; 
+            justify-content: center; 
+            z-index: 9999; 
+            transition: opacity 0.2s;
+        }
+
+        /* Add this new class */
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
         }
         .modal { background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
     </style>
@@ -71,16 +85,21 @@
                             <tr>
                                 <td width="50"><span class="badge"><?php echo $row['id']; ?></span></td>
                                 <td><strong id="val-<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['test_field']); ?></strong></td>
+                                
                                 <td style="text-align: right;">
-                                    <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                                        <button class="btn-secondary" onclick="openEditModal(<?php echo $row['id']; ?>)">Edit</button>
+                                    <div style="display: flex; gap: 8px; justify-content: flex-end; align-items: center;">
                                         
-                                        <form method="POST" style="margin:0;" onsubmit="return confirm('Delete this row?');">
+                                        <button type="button" class="btn-secondary" onclick="alert('Button works!'); openEditModal(<?php echo (int)$row['id']; ?>)">
+                                            Edit
+                                        </button>
+                                        
+                                        <form method="POST" style="margin:0; display:inline;" onsubmit="return confirm('Delete this row?');">
                                             <?php \SW\Source\Server\Security\CSRF::Insert() ?>
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="row_id" value="<?php echo $row['id']; ?>">
                                             <button type="submit" class="btn-danger">Delete</button>
                                         </form>
+
                                     </div>
                                 </td>
                             </tr>
@@ -88,7 +107,7 @@
                     </tbody>
                 </table>
             <?php else: ?>
-                <div style="text-align: center; color: #9ca3af;">Empty table.</div>
+                <div style="text-align: center; color: #9ca3af; padding: 20px;">Empty table.</div>
             <?php endif; ?>
         </div>
     </div>
@@ -115,28 +134,39 @@
     </div>
 
     <script>
-        const modal = document.getElementById('editModal');
-        const modalIdInput = document.getElementById('modal_row_id');
-        const modalTextInput = document.getElementById('modal_test_input');
-
         function openEditModal(id) {
-            // Find the current text in the table using the ID
-            const currentText = document.getElementById('val-' + id).innerText;
-            
-            // Fill the modal inputs
+            // 1. Get the elements ONLY when the function is called
+            const modal = document.getElementById('editModal');
+            const modalIdInput = document.getElementById('modal_row_id');
+            const modalTextInput = document.getElementById('modal_test_input');
+            const valElement = document.getElementById('val-' + id);
+
+            // 2. Safety check: make sure the element exists
+            if (!valElement) {
+                console.error("Could not find text element for ID: val-" + id);
+                return;
+            }
+
+            // 3. Fill the data
             modalIdInput.value = id;
-            modalTextInput.value = currentText;
+            modalTextInput.value = valElement.innerText.trim();
             
-            // Show the modal
+            // 4. Force show the modal
             modal.style.display = 'flex';
         }
 
         function closeModal() {
-            modal.style.display = 'none';
+            const modal = document.getElementById('editModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
 
-        // Close modal if user clicks outside the white box
+        // Close modal if user clicks outside the box
         window.onclick = function(event) {
-            if (event.target == modal) closeModal();
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeModal();
+            }
         }
     </script>
