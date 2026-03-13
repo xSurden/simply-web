@@ -1,6 +1,6 @@
 <?php
 
-    namespace SW\Source\Engine;
+    namespace SW\Source\Server\Engine;
 
     class TemplateEngine {
         public static function Render($template, $data = []) {

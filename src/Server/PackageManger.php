@@ -8,7 +8,7 @@
 
         public function __construct()
         {
-            $this->repoBase = \SW\Source\Engine\ConfigEngine::GetValue("package_repository");
+            $this->repoBase = \SW\Source\Server\Engine\ConfigEngine::GetValue("package_repository");
 
             if ($this->repoBase) {
                 $this->repoBase = rtrim($this->repoBase, '/') . '/';

@@ -13,7 +13,7 @@
 
         private static function Init(){
             if (self::$TemplateEngine === null) {
-                self::$TemplateEngine = new \SW\Source\Engine\TemplateEngine();
+                self::$TemplateEngine = new \SW\Source\Server\Engine\TemplateEngine();
             }
         }
 
@@ -67,7 +67,7 @@
             */
 
             $domain = $_SERVER['HTTP_HOST'];
-            $trusted_domains = \SW\Source\Engine\ConfigEngine::GetValue("trusted_domains");
+            $trusted_domains = \SW\Source\Server\Engine\ConfigEngine::GetValue("trusted_domains");
 
             if (!in_array($domain, $trusted_domains)) {
                 return false;
