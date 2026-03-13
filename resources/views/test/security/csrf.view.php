@@ -12,6 +12,10 @@
 
 ?>
 
+<h1>Test CSRF module</h1>
+<p>
+    It should work if you try to submit things without being valid.
+</p>
 <form action="" method="POST">
     <?= SW\Source\Server\Security\CSRF::Insert(); ?>
     <button type="submit">Update</button>
