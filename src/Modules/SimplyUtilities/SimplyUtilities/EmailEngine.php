@@ -1,6 +1,6 @@
 <?php
 
-namespace SW\Source\Server\Engine;
+namespace SW\Source\Modules\SimplyUtilities;
 
 // Ensure PHPMailer is loaded via Composer's autoloader or manual include
 use PHPMailer\PHPMailer\PHPMailer;

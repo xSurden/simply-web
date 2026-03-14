@@ -1,7 +1,12 @@
 <?php
 
     // CSP protection
-    header("Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none';");
+    header("Content-Security-Policy: default-src 'self'; " .
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
+    "script-src 'self' https://cdn.tailwindcss.com; " .
+    "font-src 'self' https://fonts.gstatic.com; " .
+    "img-src 'self' data:; " .
+    "object-src 'none';");
 
     // More secure session start
     ini_set('session.cookie_httponly', 1);
