@@ -1,31 +1,32 @@
-SimplyWeb is a lightweight PHP framework.
-I have created this project because I got bored, and PHP can be quite annoying to write sometimes - so I made it so my future projects and yours too (mainly used for development - is not ready for production) can be developed quickly, very native to PHP, run on almost any hosting provider and uncomplicated compared to Laravel. However it does lack many feature such as dynamic updates, majority of the security features (currently) and some useful features that are found on other frameworks. 
+# What is Simply-Web?
+Simply-Web is a lightweight near native PHP framework.
+A side project born from boredom. This framework is mainly used for those who
+are confused by Laravel, or simply want to learn how PHP works. 
+It can also be used for lightweight web applications that does not require
+special environments and wants to go the simple route. 
 
-Requirements:
+# Why use Simply-Web?
+When you are creating a small PHP project, Simply-Web is the way forward.
+Utilising the model-view-controller patterns, your main code logic is not exposed to the internet. 
+We have also included built-in modules for you to quickly do things without writing it yourself.
+From sending emails, user authentications and more quickly. 
+
+# Requirements to run Simply-Web
  - PHP 8.2 and higher (up to 8.5), any PHP version over 8.0 should still work.
  - Ability to make /public the web root folder. 
  - .htaccess compatibility
 
-Our goals:
+# Our framework's goal
  - Lightweight
  - Available on any platform (e.g. HestiaCP, XAMPP, Apache2)
  - Minimal dependencies (PHP 8.0+)
  - Simple Syntax
+ - Built-in ready to use modules.
+ - Repo to install and/or update modules from our repo server. 
 
-You can read on the documentation for Simply-Web here at: https://surden.me/documentation/simply-web-getting-started/
+# Disclaimers
+This framework is super simple, while not on the same level as Laravel, it is quite educational to
+get a deeper understanding of how PHP works, with database handling and much more. Feel free to look around,
+edit anything you like and make your own. 
 
-Planned built-in modules:
- - Templating Engine
- - Email Service (Easier Email Service)
- - Elegant Database handler (WIP)
- - Simple Domain-Whitelist feature (New - possibly contains bugs)
- - Basic account model (SimplyUsers) (WIP)
- - Package Manager 
- - CLI (Tested on Windows 11)
-
-If you are looking to use this framework, we are not responsible for any data loss or breaches. This is best for if you like to create a small development project, school work or just for fun and build on top of this framework. What I would use this for is:
- - Fan sites
- - Portfolio sites
- - Custom advanced sites (that does not hold multiple confidential & sensitive data)
- - License server
-
+We are not responsible for any data leaks or damages as this is not production ready.

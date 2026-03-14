@@ -8,12 +8,12 @@
                 $path = "index";
             }
 
-            if (!file_exists(ABSPATH . "/resources/views/" . $path . ".view.php")) {
+            if (!file_exists(ABSPATH . "/resources/routes/" . $path . ".view.php")) {
                 http_response_code(404);
-                include ABSPATH . "/resources/views/errors/404.view.php";
+                include ABSPATH . "/resources/templates/errors/404.view.php";
                 return;
             }
-            include ABSPATH . "/resources/views/" . $path . ".view.php";
+            include ABSPATH . "/resources/routes/" . $path . ".view.php";
         }
     }
 

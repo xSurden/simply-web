@@ -5,6 +5,19 @@
     class Pointer {
 
         /*
+            Get all tables in the provided
+            database;
+        */
+        public function FetchTables() {
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
+            $sql = "Show tables;";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(\PDO::FETCH_COLUMN) ?? [];
+        }
+
+        /*
             Functions to use the database
             including fetching data, inserting and other stuff.
         */
