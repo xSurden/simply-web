@@ -6,7 +6,7 @@ namespace SW\Source\Modules\SimplyUtilities;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class EmailEngine {
+class SimplyUtilities_Email {
     private $config;
 
     public function __construct($config = []) {

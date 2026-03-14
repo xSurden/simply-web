@@ -43,7 +43,7 @@
         /*
             Get all fields from a table
         */
-        public function FetchAll($table) {
+        public function FetchAllFromTable($table) {
             if (!$table) {
                 return [];
             }
