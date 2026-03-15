@@ -25,6 +25,10 @@
             UpdateSystem();
             break;
 
+        case "change-repo":
+            ChangeRepo($target);
+            break;
+
         case "help":
             echo "Simply-Web CLI\n";
             echo "Usage: sw [command] [target]\n";
@@ -38,6 +42,32 @@
         default:
             echo "Unknown command: $command\n";
             break;
+    }
+
+    function ChangeRepo($url) {
+        // Init pointer
+        $Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+
+        if ($url === null) {
+            echo "No Repo link was provided.";
+        } else {
+            try {
+                $new = [
+                    "config_value" => $url ?? "https://repo.surden.me/packages/"
+                ];
+                $where = [
+                    "config_key" => "package_repository_url"
+                ];
+                $result = $Pointer->Update("server_configs", $new, $where);
+                if ($result) {
+                    echo "Updated the repository's location to: " . $url;
+                } else {
+                    echo "System update failed at one or more stages.\n";
+                }
+            } catch (\Exception $e) {
+                echo "Critical Repo Change Error: " . $e->getMessage() . "\n";
+            }
+        }
     }
 
     function UpdateSystem() {
