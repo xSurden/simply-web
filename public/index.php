@@ -1,6 +1,17 @@
 <?php
 
-    // CSP protection
+    /*
+    |   Simply-Web | A lightweight - near native PHP framework
+    |   Built by Surden (aka Piyarach Muenchana) as a side hobby
+    |   This usually should not be modified unless you know what you are doing
+    */
+
+    
+    /*
+    |   This is the CSP protection script
+    |   Currently you can load in Tailwind CSS, google fonts and your local files
+    |   Other sources will be blocked unless specified below.
+    */
     header("Content-Security-Policy: default-src 'self'; " .
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
     "script-src 'self' https://cdn.tailwindcss.com; " .
@@ -8,7 +19,11 @@
     "img-src 'self' data:; " .
     "object-src 'none';");
 
-    // More secure session start
+    
+    /*
+    |   Initialising secure cookie sessions.
+    |   We prefer that you do keep this!
+    */
     ini_set('session.cookie_httponly', 1);
     ini_set('session.cookie_secure', 1);
     ini_set('session.use_only_cookies', 1); 
@@ -16,32 +31,58 @@
         'cookie_samesite' => 'Lax'
     ]);
 
-    // Suppress errors so it dont bombard the screen.
-    error_reporting(0);
+    /*
+    |   Suppressing errors so our system can take care of it.
+    |   Generally - do not remove this unless you require more in-depth
+    |   overview of the errors you may encounter
+    */
+    error_reporting(E_ALL);
+    ini_set('display_errors', 0);
 
-    // Defining paths and loading autoloader
+    
+    /*
+    |   Defining the root base and loading autoloader (Composer)
+    |   100% do not remove this!
+    */
     define("ABSPATH", __DIR__ . "/..");
     require ABSPATH . "/vendor/autoload.php";
 
-    // loading in the required class
+
+    /*
+    |   Loading the classes we need for the index page
+    |   These will handle routing, startup of each page and allowing template engine
+    |   Will also catch errors and stuff I suppose.
+    */
     use \SW\Source\Server\Engine\Router;
     use \SW\Source\Server\Web;
+    use \SW\Source\Server\Engine\TemplateEngine;
 
-    // init the class
-    $WebServer = new Web();
-    $Router = new Router();
+    try {
+        $WebServer = new Web();
+        $Router = new Router();
 
-    // getting the url
-    $route = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-    $route = rtrim($route, '/');
-    if ($route === '') {
-        $route = '/';
+        $route = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        $route = rtrim($route, '/');
+        if ($route === '') {
+            $route = '/';
+        }
+
+        $WebServer->Start();
+
+        $Router->Route($route);
+
+    } catch (\Throwable $e) {
+        $data = [
+            "type" => "System Error",
+            "code" => $e->getCode() ?: 500,
+            "message" => "Our server encountered a critical issue: " . $e->getMessage()
+        ];
+
+        if (str_contains($e->getMessage(), 'cron')) {
+            $data['type'] = "Error - Cron Failed";
+            $data['message'] = "Our server failed to register certain cron tasks - which has broken our system.";
+        }
+
+        TemplateEngine::Render("server/message", $data);
+        exit();
     }
-
-    // Start the web server module
-    $WebServer->Start();
-
-    // Render the route
-    $Router->Route($route);
-
-?>

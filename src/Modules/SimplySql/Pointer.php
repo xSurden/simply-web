@@ -5,6 +5,28 @@
     class Pointer {
 
         /*
+            Creating a table
+        */
+        public function CreateTable($name, $data) {
+            if (!$name || empty($data)) {
+                return false;
+            }
+            $name = preg_replace('/[^a-zA-Z0-9_]/', '', $name);
+
+            $columns = [];
+            foreach ($data as $column => $definition) {
+                $sanitizedColumn = preg_replace('/[^a-zA-Z0-9_]/', '', $column);
+                $columns[] = "`$sanitizedColumn` $definition";
+            }
+
+            $conn = \SW\Source\Modules\SimplySql\Database::GetConnection();
+            $sql = "CREATE TABLE IF NOT EXISTS `$name` (" . implode(', ', $columns) . ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+            
+            $stmt = $conn->prepare($sql);
+            return $stmt->execute();
+        }
+
+        /*
             Get all tables in the provided
             database;
         */
@@ -15,6 +37,10 @@
             $stmt->execute();
 
             return $stmt->fetchAll(\PDO::FETCH_COLUMN) ?? [];
+        }
+
+        public function FetchTable($table) {
+            return $this->FetchAllFromTable($table) ?? [];
         }
 
         /*

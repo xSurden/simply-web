@@ -6,11 +6,17 @@ namespace SW\Source\Modules\SimplyUtilities;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class SimplyUtilities_Email {
+class Email {
     private $config;
+    private $EmailConfig;
 
     public function __construct($config = []) {
         $this->config = $config;
+
+        // Get configs and ensure they exists in the database
+        if ($this->EmailConfig === null) {
+            $this->EmailConfig = self::LoadConfig();
+        } 
     }
 
     public function Send($recipient, $body = []) {
@@ -22,17 +28,16 @@ class SimplyUtilities_Email {
         $mail = new PHPMailer(true);
 
         try {
-            $settings = $this->config['email-settings'];
 
             $mail->isSMTP();
-            $mail->Host       = $settings['host'];
+            $mail->Host       = $this->EmailConfig['host'];
             $mail->SMTPAuth   = true;
-            $mail->Username   = $settings['username'];
-            $mail->Password   = $settings['password'];
-            $mail->SMTPSecure = $settings['encryption'];
-            $mail->Port       = $settings['port'];   
+            $mail->Username   = $this->EmailConfig['username'];
+            $mail->Password   = $this->EmailConfig['password'];
+            $mail->SMTPSecure = $this->EmailConfig['encryption'];
+            $mail->Port       = $this->EmailConfig['port'];   
 
-            $mail->setFrom($settings['username'], $this->config['app_name']);
+            $mail->setFrom($this->EmailConfig['username'], $this->config['app_name']);
             $mail->addAddress($recipient);
 
             $mail->isHTML(true);
@@ -48,7 +53,7 @@ class SimplyUtilities_Email {
     }
 
     private function Build($body) {
-        $templateName = $body['template'] ?? 'default';
+        $templateName = $body['template'] ?? 'email/default';
         
         return self::LoadTemplate($templateName, [
             'content'  => $body['message'] ?? '',
@@ -69,5 +74,38 @@ class SimplyUtilities_Email {
         ob_start();
         include $templatePath;
         return ob_get_clean();
+    }
+
+
+    /*
+        Get config from db
+    */
+
+    private static function LoadConfig() {
+
+        $Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+        $key = "simplyutilities_email_config";
+
+        $result = $Pointer->FetchField('server_configs', 'config_key', $key);
+        if ($result) {
+            return json_decode($result["config_value"], true);
+        }
+
+        $default_data = [
+            "host" => "mail.domain.com",
+            "username" => "info@domain.com",
+            "password" => "password123",
+            "port" => 587,
+            "encryption" => "tls"
+        ];
+
+        $Pointer->Insert("server_configs", [
+            "config_key"   => $key,
+            "config_value" => json_encode($default_data),
+            "description"  => "SimplyUtilities' Email service credentials"
+        ]);
+
+        return $default_data;
+
     }
 }
