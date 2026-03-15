@@ -1,83 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A new simply-web app</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --text-color: #f8fafc;
-            --accent-color: #38bdf8;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simply-Web | Ready to Build</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap');
+            body { font-family: 'Inter', sans-serif; }
+            .code-font { font-family: 'Fira Code', monospace; }
+        </style>
+    </head>
+    <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col items-center justify-center p-6">
 
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-        }
+        <div class="max-w-3xl w-full">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Simply-Web is now installed</h1>
+                <p class="text-slate-500 font-medium">Great - you have installed it. Now create!</p>
+            </div>
 
-        .container {
-            padding: 2rem;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-blue-600 mb-4">Next Steps</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="text-slate-300 font-bold text-xl flex-shrink-0">01</div>
+                            <div>
+                                <p class="font-semibold text-slate-800">Edit this page</p>
+                                <p class="text-sm text-slate-500">Find this view at <code class="bg-slate-100 px-1.5 py-0.5 rounded text-blue-600 code-font">/routes/index.view.php</code></p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-slate-300 font-bold text-xl flex-shrink-0">02</div>
+                            <div>
+                                <p class="font-semibold text-slate-800">Define a Route</p>
+                                <p class="text-sm text-slate-500">Create a new .view.php file at <code class="bg-slate-100 px-1.5 py-0.5 rounded text-blue-600 code-font">/resources/routes/</code> to add a new page/Api.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-slate-300 font-bold text-xl flex-shrink-0">03</div>
+                            <div>
+                                <p class="font-semibold text-slate-800">Code</p>
+                                <p class="text-sm text-slate-500">$Template->Render(); // Use any HTML templates or make your own.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 border-t border-slate-100 px-8 py-4 flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-tight">URL: <?= \SW\Source\Server\Utilities\Text::DisplayText($_SERVER["HTTP_HOST"]) ?></span>
+                    </div>
+                    <span class="text-xs text-slate-400 code-font">PHP v<?= phpversion(); ?></span>
+                </div>
+            </div>
 
-        .logo {
-            max-width: 250px;
-            height: auto;
-            margin-bottom: 2rem;
-        }
+            <div class="flex justify-center space-x-6 text-sm font-semibold text-slate-400">
+                <a href="https://github.com/xSurden/simply-web" class="hover:text-blue-600 transition">GitHub Repo</a>
+            </div>
+        </div>
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            margin-bottom: 2rem;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        
-        <h1>A new Simply-Web app is now live.</h1>
-        <p>
-            Now start writing your web app faster while sticking to the PHP like state. 
-        </p>
-
-    </div>
-
-</body>
+    </body>
 </html>

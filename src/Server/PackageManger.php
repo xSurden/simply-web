@@ -5,15 +5,21 @@
     class PackageManger {
 
         private $repoBase;
+        private $Pointer;
 
         public function __construct()
         {
-            $this->repoBase = \SW\Source\Server\Engine\ConfigEngine::GetValue("package_repository");
+            // Depreciated -> moved to database check
+            // $this->repoBase = \SW\Source\Server\Engine\ConfigEngine::GetValue("package_repository");
+
+            // Init the pointer class
+            $this->Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+            $this->repoBase = $this->Pointer->FetchField("server_configs", "config_key", "package_repository_url");
 
             if ($this->repoBase) {
-                $this->repoBase = rtrim($this->repoBase, '/') . '/';
+                $this->repoBase = rtrim($this->repoBase["config_value"], '/') . '/';
             } else {
-                throw new \Exception("Package repository URL is not configured. Please set 'package_repository' in your settings.");
+                throw new \Exception("Package repository URL is not configured. Please set one within your database (server_configs table)");
             }
         }
 

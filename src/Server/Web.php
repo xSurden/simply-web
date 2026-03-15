@@ -5,6 +5,8 @@
     class Web {
 
         private static $TemplateEngine;
+        private static $Pointer;
+        private static $Migrations;
 
         public function __construct() 
         {
@@ -14,6 +16,14 @@
         private static function Init(){
             if (self::$TemplateEngine === null) {
                 self::$TemplateEngine = new \SW\Source\Server\Engine\TemplateEngine();
+            }
+
+            if (self::$Pointer === null) {
+                self::$Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+            }
+
+            if (self::$Migrations === null) {
+                self::$Migrations = new \SW\Source\Server\Utilities\Migrations();
             }
         }
 
@@ -43,9 +53,10 @@
             // Init and check for files
             self::Init();
             self::FileIntegrity();
+            self::CheckDatabase();
 
             // Check if the domain the user is visiting from is valid
-            if (!self::Validate()) {
+            if (!self::ValidateDomain()) {
                 // If the domain is not valid, we will display "Unauthorised domain" and stop processing the request. 
                 self::$TemplateEngine->Render("server/invalid-domain");
                 exit();
@@ -77,7 +88,7 @@
             }
         }
 
-        private static function Validate() {
+        private static function ValidateDomain() {
             /*
                 Logic to validate the domain. This can include checking if the domain is in a valid format, if it is allowed by the app's configuration, etc. 
                 You can also add custom logic here to handle specific cases or requirements for your app. 
@@ -92,5 +103,24 @@
 
             // if the domain is valid, return true
             return true;
+        }
+
+        private static function CheckDatabase() {
+            $existingTables = self::$Pointer->FetchTables();
+            
+            if (!in_array("server_configs", $existingTables)) {
+                self::$Migrations::Server_Configs_Check();
+            }
+
+            // Check if repo variable exists
+            $result = self::$Pointer->FetchField("server_configs", "config_key", "package_repository_url");
+            if ($result === null) {
+                $data = [
+                    "config_key"   => "package_repository_url",
+                    "config_value" => "https://repo.surden.me/packages/",
+                    "description"  => "The repo url - default is standard and shipped with framework"
+                ];
+                self::$Pointer->Insert("server_configs", $data);
+            }
         }
     }
