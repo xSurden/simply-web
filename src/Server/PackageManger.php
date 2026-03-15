@@ -115,10 +115,105 @@
         }
 
         public function DeletePackage($target) {
+            $props = $this->Fetch($target);
+            $path = ABSPATH . ($props['install_to'] ?? "/resources/packages/{$target}");
+
+            if (!is_dir($path)) {
+                echo "Package '{$target}' not found at {$path}.\n";
+                return false;
+            }
+
+            echo "Removing package: {$target}...\n";
+            return $this->recursiveDelete($path);
+        }
+
+        private function recursiveDelete($dir) {
+            if (!file_exists($dir)) return true;
+            if (!is_dir($dir)) return unlink($dir);
+
+            foreach (scandir($dir) as $item) {
+                if ($item == '.' || $item == '..') continue;
+                if (!$this->recursiveDelete($dir . DIRECTORY_SEPARATOR . $item)) return false;
+            }
+
+            return rmdir($dir);
         }
 
         public function UpdatePackage($target) {
             $this->DeletePackage($target);
             $this->InstallPackage($target);
+        }
+
+        public function UpdateSystem() {
+            $githubUser = "xSurden";
+            $githubRepo = "simply-web"; 
+            $branch = "main";
+            
+            $zipUrl = "https://github.com/{$githubUser}/{$githubRepo}/archive/refs/heads/{$branch}.zip";
+            $tempDir = ABSPATH . "/resources/temp/update_stage";
+            $zipFile = ABSPATH . "/resources/temp/system_update.zip";
+
+            echo "--- Initiating GitHub Core Update ---\n";
+
+            try {
+                if (!$this->DownloadFile($zipUrl, $zipFile)) {
+                    throw new \Exception("Failed to download system update from GitHub.");
+                }
+
+                $zip = new \ZipArchive;
+                if ($zip->open($zipFile) === TRUE) {
+                    $zip->extractTo($tempDir);
+                    $zip->close();
+                    unlink($zipFile);
+                } else {
+                    throw new \Exception("Failed to open update ZIP.");
+                }
+
+                $extractedFolder = $tempDir . "/{$githubRepo}-{$branch}";
+
+                $map = [
+                    '/sw.php'       => '/sw.php',
+                    '/src/Server'   => '/src/Server',
+                    '/server'       => '/server'
+                ];
+
+                foreach ($map as $repoPath => $destPath) {
+                    $source = $extractedFolder . $repoPath;
+                    $destination = ABSPATH . $destPath;
+
+                    if (file_exists($source)) {
+                        echo "Updating: {$destPath}...\n";
+                        if (is_dir($source)) {
+                            $this->copyRecursive($source, $destination);
+                        } else {
+                            copy($source, $destination);
+                        }
+                    }
+                }
+
+                $this->recursiveDelete($tempDir);
+                
+                echo "Successfully updated core system files from GitHub.\n";
+                return true;
+
+            } catch (\Exception $e) {
+                echo "Update Error: " . $e->getMessage() . "\n";
+                return false;
+            }
+        }
+
+        private function copyRecursive($src, $dst) {
+            if (!is_dir($dst)) mkdir($dst, 0777, true);
+            $dir = opendir($src);
+            while (false !== ($file = readdir($dir))) {
+                if (($file != '.') && ($file != '..')) {
+                    if (is_dir($src . '/' . $file)) {
+                        $this->copyRecursive($src . '/' . $file, $dst . '/' . $file);
+                    } else {
+                        copy($src . '/' . $file, $dst . '/' . $file);
+                    }
+                }
+            }
+            closedir($dir);
         }
     }
