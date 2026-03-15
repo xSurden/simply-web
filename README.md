@@ -16,6 +16,13 @@ From sending emails, user authentications and more quickly.
  - Ability to make /public the web root folder. 
  - .htaccess compatibility
 
+# Some CLI commands
+ - Update core systems (not modules or resources): sw update
+ - Install a module from repo: sw install <package>
+
+# Repository Information
+The default repository is located at https://repo.surden.me/packages/, you can change the default repo to a community one or other ones by changing this via the database table: server_configs or you can update this manually via CLI: sw change-repo <repo-link e.g. https://repo.somedomain.com/packages/>
+
 # Our framework's goal
  - Lightweight
  - Available on any platform (e.g. HestiaCP, XAMPP, Apache2)
