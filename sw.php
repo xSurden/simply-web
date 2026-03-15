@@ -21,6 +21,10 @@
             InstallHandler($target);
             break;
 
+        case "update":
+            UpdateSystem();
+            break;
+
         case "help":
             echo "Simply-Web CLI\n";
             echo "Usage: sw [command] [target]\n";
@@ -34,6 +38,23 @@
         default:
             echo "Unknown command: $command\n";
             break;
+    }
+
+    function UpdateSystem() {
+        echo "--- Updating the system ---\n";
+        $manager = new \SW\Source\Server\PackageManger();
+
+        try {
+            $success = $manager->UpdateSystem();
+            
+            if ($success) {
+                echo "Successfully updated all system components.\n";
+            } else {
+                echo "System update failed at one or more stages.\n";
+            }
+        } catch (\Exception $e) {
+            echo "Critical Update Error: " . $e->getMessage() . "\n";
+        }
     }
 
     function InstallHandler($target) {
