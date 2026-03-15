@@ -111,5 +111,16 @@
             if (!in_array("server_configs", $existingTables)) {
                 self::$Migrations::Server_Configs_Check();
             }
-}
+
+            // Check if repo variable exists
+            $result = self::$Pointer->FetchField("server_configs", "config_key", "package_repository_url");
+            if ($result === null) {
+                $data = [
+                    "config_key"   => "package_repository_url",
+                    "config_value" => "https://repo.surden.me/packages/",
+                    "description"  => "The repo url - default is standard and shipped with framework"
+                ];
+                self::$Pointer->Insert("server_configs", $data);
+            }
+        }
     }

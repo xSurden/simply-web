@@ -13,10 +13,11 @@
     |   Other sources will be blocked unless specified below.
     */
     header("Content-Security-Policy: default-src 'self'; " .
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
-    "script-src 'self' https://cdn.tailwindcss.com; " .
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com; " .
+    "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.google.com https://www.gstatic.com; " .
+    "frame-src https://www.google.com; " . 
     "font-src 'self' https://fonts.gstatic.com; " .
-    "img-src 'self' data:; " .
+    "img-src 'self' data: https://www.gstatic.com; " .
     "object-src 'none';");
 
     
