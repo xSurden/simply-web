@@ -1,3 +1,5 @@
+# Check out our [TODO list](TODO.md) to see what we're working on!
+
 # What is Simply-Web?
 Simply-Web is a lightweight near native PHP framework.
 A side project born from boredom. This framework is mainly used for those who
