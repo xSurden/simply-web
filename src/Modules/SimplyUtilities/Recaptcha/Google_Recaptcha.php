@@ -5,7 +5,7 @@
     class Google_Recaptcha {
 
         /*
-        |   Recaptcha module for Simply-Web framework
+        |   Recaptcha module for SimplyWeb framework
         |   Currently includes: Google's reCaptcha
         */
 

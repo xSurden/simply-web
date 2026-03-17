@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Simply-Web | Ready to Build</title>
+        <title>SimplyWeb | Ready to Build</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap');
@@ -15,7 +15,7 @@
 
         <div class="max-w-3xl w-full">
             <div class="text-center mb-10">
-                <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Simply-Web is now installed</h1>
+                <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">SimplyWeb is now installed</h1>
                 <p class="text-slate-500 font-medium">Great - you have installed it. Now create!</p>
             </div>
 

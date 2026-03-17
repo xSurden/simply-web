@@ -1,7 +1,7 @@
 <?php
 
     /*
-    |   Simply-Web | A lightweight - near native PHP framework
+    |   SimplyWeb | A lightweight - near native PHP framework
     |   Built by Surden (aka Piyarach Muenchana) as a side hobby
     |   This usually should not be modified unless you know what you are doing
     */
