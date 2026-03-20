@@ -68,9 +68,19 @@
             $route = '/';
         }
 
+        // Init web server Web.php file
         $WebServer->Start();
 
-        $Router->Route($route);
+        /*
+        |   This is to add dependencies to be used globally throughout the entire
+        |   application without initialising it always
+        */
+        $dependencies = [
+            "TemplateEngine" => new TemplateEngine()
+        ];
+
+        // Init the route method and route the request(s)
+        $Router->Route($route, $dependencies);
 
     } catch (\Throwable $e) {
         $data = [

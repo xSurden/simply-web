@@ -5,3 +5,4 @@
     -   Admin panel (default /sw-admin): allow management of server_configs and more for account with ADMIN privileges.
     -   WebSocket into SimplyUtilities:Websocket
     -   Cron (TEST - WIP)
+    -   Utilise Dependency Injection (DI)
