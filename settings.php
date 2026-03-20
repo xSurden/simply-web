@@ -2,7 +2,7 @@
 
     return [
 
-        "app_name" => "Simply-Web Application",
+        "app_name" => "SimplyWeb Application",
         "trusted_domains" => ["localhost", "simply-web-test.surden.me"],
 
         "package_repository" => "https://repo.surden.me/packages/",

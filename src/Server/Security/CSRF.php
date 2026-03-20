@@ -47,7 +47,7 @@ class CSRF {
             "code" => 405,
             "message" => "We failed to validate your CSRF token - operation has been cancelled"
         ];
-        \SW\Source\Server\Engine\TemplateEngine::Render("server/message", $data);
+        TemplateEngine::Render("server/message", $data);
         exit();
     }
 }

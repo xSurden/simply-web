@@ -7,6 +7,7 @@
         private static $TemplateEngine;
         private static $Pointer;
         private static $Migrations;
+        private static $Maintenance;
 
         public function __construct() 
         {
@@ -24,6 +25,10 @@
 
             if (self::$Migrations === null) {
                 self::$Migrations = new \SW\Source\Server\Utilities\Migrations();
+            }
+
+            if (self::$Maintenance === null) {
+                self::$Maintenance = new \SW\Source\Server\CLI\Maintenance();
             }
         }
 
@@ -54,6 +59,7 @@
             self::Init();
             self::FileIntegrity();
             self::CheckDatabase();
+            self::Maintenance();
 
             // Check if the domain the user is visiting from is valid
             if (!self::ValidateDomain()) {
@@ -85,6 +91,7 @@
                     "message" => "Unable to load settings file. Please ensure settings.php exists"
                 ];
                 self::$TemplateEngine->Render("server/message", $data);
+                exit();
             }
         }
 
@@ -121,6 +128,13 @@
                     "description"  => "The repo url - default is standard and shipped with framework"
                 ];
                 self::$Pointer->Insert("server_configs", $data);
+            }
+        }
+
+        private static function Maintenance() {
+            if (self::$Maintenance->Status()) {
+                self::$TemplateEngine->Render("server/maintenance");
+                exit();
             }
         }
     }

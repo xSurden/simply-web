@@ -2,33 +2,42 @@
 
     namespace SW\Source\Server\Utilities;
 
+    use SW\Source\Server\CLI\Maintenance;
+
     class Cron {
 
         private static $Cron_Tasks_File = ABSPATH . "/cron_tasks.json";
 
         public static function Run(bool $log = true) {
+            if (Maintenance::Status()) {
+                if ($log) echo "Cron skipped: System is in Maintenance Mode.\n";
+                return;
+            }
+
             $tasks = self::FetchTasks();
 
             foreach ($tasks as $task) {
-                if (is_callable([$task->class, $task->method])) {
-                    call_user_func([$task->class, $task->method]);
-                    
-                    if ($log) {
-                        echo "Executed: {$task->class}::{$task->method} \n";
+                $class = $task['class'] ?? null;
+                $method = $task['method'] ?? null;
+
+                if ($class && $method && is_callable([$class, $method])) {
+                    try {
+                        call_user_func([$class, $method]);
+                        if ($log) echo "Executed: {$class}::{$method}\n";
+                    } catch (\Exception $e) {
+                        if ($log) echo "Error executing {$class}::{$method}: " . $e->getMessage() . "\n";
                     }
                 }
             }
 
-            if ($log) {
-                echo "Cron run finished at " . date('Y-m-d H:i:s') . "\n";
-            }
+            if ($log) echo "Cron run finished at " . date('Y-m-d H:i:s') . "\n";
         }
 
         public static function Register(string $class, string $method) {
             $tasks = self::FetchTasks();
 
             foreach ($tasks as $task) {
-                if ($task->class === $class && $task->method === $method) {
+                if ($task['class'] === $class && $task['method'] === $method) {
                     return false; 
                 }
             }

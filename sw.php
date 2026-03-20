@@ -29,12 +29,42 @@
             ChangeRepo($target);
             break;
 
+        case "maintenance":
+            Maintenance($target);
+            break;
+
+        case "cron":
+            echo "Cron System for SimplyWeb";
+            break;
+
+        case "cron:run":
+            echo "--- Initiating Cron Tasks ---\n";
+            \SW\Source\Server\Utilities\Cron::Run();
+            break;
+
+        case "cron:register":
+            $class = $argv[2] ?? null;
+            $method = $argv[3] ?? null;
+
+            if ($class && $method) {
+                if (\SW\Source\Server\Utilities\Cron::Register($class, $method)) {
+                    echo "Task registered successfully.\n";
+                } else {
+                    echo "Task is already registered.\n";
+                }
+            } else {
+                echo "Usage: sw cron:register [class] [method]\n";
+            }
+            break;
+
         case "help":
-            echo "Simply-Web CLI\n";
+            echo "SimplyWeb CLI\n";
             echo "Usage: sw [command] [target]\n";
             echo "Commands:\n";
-            echo "  install [package] - Installs a package from the repository\n";
-            echo "  help              - Displays this help message\n";
+            echo "  help                - Displays this help message\n";
+            echo "  install [package]   - Installs a package from the repository\n";
+            echo "  maintenance [e/d]   - Enable or Disable maintenance mode\n";
+            echo "  cron:run            - Runs registered background tasks\n";
             echo "\nIf you have a package installed, running the install command again can update the current package.";
             echo "Install command can also be used to replace broken packages by re-downloading and overwriting the files.";
             break;
@@ -42,6 +72,33 @@
         default:
             echo "Unknown command: $command\n";
             break;
+    }
+
+    function Maintenance($target = null) {
+        $Package = new \SW\Source\Server\CLI\Maintenance();
+
+        if ($target === null) {
+            $Package->Toggle("disable");
+            echo "Maintenance mode was not specified - defaulted to DISABLED (off)\n";
+            return;
+        }
+
+        $input = strtolower((string)$target);
+        
+        if ($input === "enable" || $input === "disable") {
+            if ($Package->Toggle($input)) {
+                echo "Successfully " . strtoupper($input) . "D maintenance mode.\n";
+                if ($input === "enable") {
+                    echo "File created at: /server/maintenance\n";
+                } else {
+                    echo "File removed from: /server/maintenance\n";
+                }
+            } else {
+                echo "Failed to " . $input . " maintenance mode in database, though file state may have changed.\n";
+            }
+        } else {
+            echo "Usage: sw maintenance [enable|disable]\n";
+        }
     }
 
     function ChangeRepo($url) {

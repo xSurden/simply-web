@@ -5,7 +5,7 @@
     class Google_Recaptcha {
 
         /*
-        |   Recaptcha module for Simply-Web framework
+        |   Recaptcha module for SimplyWeb framework
         |   Currently includes: Google's reCaptcha
         */
 
@@ -17,10 +17,10 @@
             $this->Pointer = new \SW\Source\Modules\SimplySql\Pointer();
 
             // Set key and secret to "not_available" if does not exist in server configs table
-            $result = $this->Pointer->FetchField("server_configs", "config_key", "recaptcha_site_key");
+            $result = $this->Pointer->FetchField("server_configs", "config_key", "simplyutilities_google_recaptcha_site_key");
             if ($result === null) {
                 $data = [
-                    "config_key" => "recaptcha_site_key",
+                    "config_key" => "simplyutilities_google_recaptcha_site_key",
                     "config_value" => "not_available",
                     "description" => "Google Site Key"
                 ];
@@ -30,10 +30,10 @@
 
             // For secret
 
-            $result = $this->Pointer->FetchField("server_configs", "config_key", "recaptcha_secret_key");
+            $result = $this->Pointer->FetchField("server_configs", "config_key", "simplyutilities_google_recaptcha_secret_key");
             if ($result === null) {
                 $data = [
-                    "config_key" => "recaptcha_secret_key",
+                    "config_key" => "simplyutilities_google_recaptcha_secret_key",
                     "config_value" => "not_available",
                     "description" => "Google Site Secret"
                 ];
@@ -48,7 +48,7 @@
         */
         public function Loadv2()
         {
-            $result = $this->Pointer->FetchField("server_configs", "config_key", "recaptcha_site_key");
+            $result = $this->Pointer->FetchField("server_configs", "config_key", "simplyutilities_google_recaptcha_site_key");
             $siteKey = $result['config_value'] ?? null;
 
             if (!$siteKey) {
@@ -66,7 +66,7 @@
         */
         public function Verify($response)
         {
-            $result = $this->Pointer->FetchField("server_configs", "config_key", "recaptcha_secret_key");
+            $result = $this->Pointer->FetchField("server_configs", "config_key", "simplyutilities_google_recaptcha_secret_key");
             $secretKey = $result['config_value'] ?? null;
 
             if (!$secretKey || empty($response)) {

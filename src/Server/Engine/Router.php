@@ -3,7 +3,7 @@
     namespace SW\Source\Server\Engine;
 
     class Router {
-        public function Route($path) {
+        public function Route($path, $dependencies = []) {
             if ($path == "/") {
                 $path = "index";
             }
@@ -13,6 +13,8 @@
                 include ABSPATH . "/resources/templates/errors/404.view.php";
                 return;
             }
+
+            extract($dependencies);
             include ABSPATH . "/resources/routes/" . $path . ".view.php";
         }
     }

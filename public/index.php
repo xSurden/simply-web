@@ -1,7 +1,7 @@
 <?php
 
     /*
-    |   Simply-Web | A lightweight - near native PHP framework
+    |   SimplyWeb | A lightweight - near native PHP framework
     |   Built by Surden (aka Piyarach Muenchana) as a side hobby
     |   This usually should not be modified unless you know what you are doing
     */
@@ -68,9 +68,19 @@
             $route = '/';
         }
 
+        // Init web server Web.php file
         $WebServer->Start();
 
-        $Router->Route($route);
+        /*
+        |   This is to add dependencies to be used globally throughout the entire
+        |   application without initialising it always
+        */
+        $dependencies = [
+            "TemplateEngine" => new TemplateEngine()
+        ];
+
+        // Init the route method and route the request(s)
+        $Router->Route($route, $dependencies);
 
     } catch (\Throwable $e) {
         $data = [
