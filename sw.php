@@ -17,6 +17,11 @@
     }
 
     switch ($command) {
+
+        case 'init':
+            InitServer();
+            break;
+
         case 'install':
             InstallHandler($target);
             break;
@@ -63,6 +68,7 @@
             echo "Commands:\n";
             echo "  help                - Displays this help message\n";
             echo "  install [package]   - Installs a package from the repository\n";
+            echo "  init                - Initialise the database and populate it";
             echo "  maintenance [e/d]   - Enable or Disable maintenance mode\n";
             echo "  cron:run            - Runs registered background tasks\n";
             echo "\nIf you have a package installed, running the install command again can update the current package.";
@@ -72,6 +78,17 @@
         default:
             echo "Unknown command: $command\n";
             break;
+    }
+
+    function InitServer() {
+        $Package = new \SW\Source\Server\Utilities\Migrations();
+        $result = $Package::Init();
+        if ($result) {
+            echo "Successfully initilised the database and populated the default tables.";
+            return;
+        }
+        echo "Failed to migrate the database and unable to populate the tables - check the code!";
+        return;
     }
 
     function Maintenance($target = null) {

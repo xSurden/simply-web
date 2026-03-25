@@ -69,7 +69,7 @@
         }
 
         // Init web server Web.php file
-        $WebServer->Start();
+        $WebServer::Start();
 
         /*
         |   This is to add dependencies to be used globally throughout the entire
