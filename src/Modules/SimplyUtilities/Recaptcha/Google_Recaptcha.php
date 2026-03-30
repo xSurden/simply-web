@@ -14,7 +14,7 @@
 
         public function __construct()
         {
-            $this->Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+            $this->Pointer = new \SW\Source\Server\Database\Pointer();
 
             // Set key and secret to "not_available" if does not exist in server configs table
             $result = $this->Pointer->FetchField("server_configs", "config_key", "simplyutilities_google_recaptcha_site_key");

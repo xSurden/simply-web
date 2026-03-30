@@ -1,6 +1,6 @@
 <?php
 
-    namespace SW\Source\Modules\SimplyUsers;
+    namespace SW\Source\Modules\SimplyAuth;
 
     class Authentication {
 
@@ -14,7 +14,7 @@
 
         public function __construct()
         {
-            $this->Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+            $this->Pointer = new \SW\Source\Server\Database\Pointer();
         }
 
         /*

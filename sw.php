@@ -92,7 +92,7 @@
     }
 
     function Maintenance($target = null) {
-        $Package = new \SW\Source\Server\CLI\Maintenance();
+        $Package = new \SW\Source\Server\Utilities\Maintenance();
 
         if ($target === null) {
             $Package->Toggle("disable");
@@ -120,7 +120,7 @@
 
     function ChangeRepo($url) {
         // Init pointer
-        $Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+        $Pointer = new \SW\Source\Server\Database\Pointer();
 
         if ($url === null) {
             echo "No Repo link was provided.";

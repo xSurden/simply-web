@@ -1,6 +1,6 @@
 <?php 
 
-    namespace SW\Source\Modules\SimplySql;
+    namespace SW\Source\Server\Database;
 
     class Database {
         /*

@@ -1,6 +1,6 @@
 <?php
 
-    namespace SW\Source\Server\CLI;
+    namespace SW\Source\Server\Utilities;
 
     use Exception;
 
@@ -12,7 +12,7 @@
 
         public function __construct() {
             if (self::$Pointer === null) {
-                self::$Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+                self::$Pointer = new \SW\Source\Server\Database\Pointer();
             }
 
             $existingConfigs = self::$Pointer->FetchAllFromTable("server_configs");

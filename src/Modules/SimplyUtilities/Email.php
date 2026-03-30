@@ -83,7 +83,7 @@ class Email {
 
     private static function LoadConfig() {
 
-        $Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+        $Pointer = new \SW\Source\Server\Database\Pointer();
         $key = "simplyutilities_email_config";
 
         $result = $Pointer->FetchField('server_configs', 'config_key', $key);

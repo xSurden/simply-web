@@ -13,7 +13,7 @@
             // $this->repoBase = \SW\Source\Server\Engine\ConfigEngine::GetValue("package_repository");
 
             // Init the pointer class
-            $this->Pointer = new \SW\Source\Modules\SimplySql\Pointer();
+            $this->Pointer = new \SW\Source\Server\Database\Pointer();
             $this->repoBase = $this->Pointer->FetchField("server_configs", "config_key", "package_repository_url");
 
             if ($this->repoBase) {
