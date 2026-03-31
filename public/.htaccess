@@ -1,0 +1,10 @@
+# This is very important for making
+# The application work properly and routing all traffic to the index.php file
+# Do not edit unless you know what you are doing!
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
