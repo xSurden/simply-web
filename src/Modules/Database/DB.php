@@ -18,10 +18,10 @@
             $this->env = new Environment();
 
             $this->host = $this->env->get("DB_HOST");
-            $this->host = $this->env->get("DB_PORT");
-            $this->host = $this->env->get("DB_NAME");
-            $this->host = $this->env->get("DB_USER");
-            $this->host = $this->env->get("DB_PASSWORD");
+            $this->port = $this->env->get("DB_PORT");
+            $this->db_name = $this->env->get("DB_NAME");
+            $this->user = $this->env->get("DB_USER");
+            $this->password = $this->env->get("DB_PASSWORD");
         }
 
         public function createConnection() {
