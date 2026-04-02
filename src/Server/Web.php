@@ -4,13 +4,16 @@
 
     class Web {
 
-        public $Route;
+        private $Route;
+        private $Env;
 
         public function __construct() {
             // Ensure environment file exists
-            if (!\App\Server\Controller\Environment::isAvailable()) {
+            if (!\App\Server\Controller\Environment::load()) {
                 die("Unable to find the environment file!");
             }
+
+            $this->Env = new \App\Server\Controller\Environment();
 
             // Load Route Handle
             $this->Route = new \App\Server\Handle\Route();
@@ -24,6 +27,9 @@
             Main method that will receive the requests, and process them
             That's all - nothing else needs to be said here
             */
+
+            // Environment Check
+            $this->Env->checkEnvironment();
 
             /*
             This is the CSP protection script
@@ -51,8 +57,14 @@
             ]);
 
 
-            // Fetch route
-            $Route = $this->Route->capture();
+            // Fetch route try -> catch
+            try {
+                $Pkg = new \App\Server\Dependencies();
+                $this->Route->capture($Pkg->fetch());
+            } catch (\Throwable $e) {
+                die("Server Error: " . $e);
+            }
+            
         }
 
     }

@@ -13,6 +13,9 @@
 
             // Attepmt to find the routes file
             $Uri = self::getRoute();
+            if ($Uri === "/") {
+                $Uri = "/index";
+            }
             $Route = ABSPATH . "/routes" . $Uri . ".php";
             if (file_exists($Route)) {
                 if (!empty($Dependencies)) {

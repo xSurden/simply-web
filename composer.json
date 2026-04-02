@@ -14,5 +14,7 @@
             "email": "hi@surden.me"
         }
     ],
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
 }
