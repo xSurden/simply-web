@@ -16,17 +16,20 @@
             if ($Uri === "/") {
                 $Uri = "/index";
             }
+
+            if (!empty($Dependencies)) {
+                extract($Dependencies);
+                ob_start();
+            }
+
+
             $Route = ABSPATH . "/routes" . $Uri . ".php";
             if (file_exists($Route)) {
-                if (!empty($Dependencies)) {
-                    extract($Dependencies);
-                    ob_start();
-                }
                 include $Route;
                 return;
             }
 
-            echo "404, Not able to find route view: " . $Uri;
+            include ABSPATH . "/server/404.php";
 
         }
 
