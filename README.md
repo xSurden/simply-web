@@ -2,7 +2,8 @@
 A hobby PHP framework. Build advanced PHP small to mid-sized web applications quicker than before,
 with less overhead requirements, built-in useful features and simple near native syntaxes. 
 
-Sponsered by ABRHosting.com
+## Sponsered by ABRHosting.com
+Use code **simplyweb** for 30% off on ABR's VPS ranges (Ryzen 9 and Xeon Eco)
 [![ABRHosting Website Link](https://abrhosting.com/assets/img/logo%20(1).png)](https://abrhosting.com)
 
 # Why use Simply Web?
