@@ -2,6 +2,9 @@
 A hobby PHP framework. Build advanced PHP small to mid-sized web applications quicker than before,
 with less overhead requirements, built-in useful features and simple near native syntaxes. 
 
+Sponsered by ABRHosting.com
+[![ABRHosting Website Link](https://abrhosting.com/assets/img/logo%20(1).png)](https://abrhosting.com)
+
 # Why use Simply Web?
 If you wish to run a PHP web application that does not require massive framework such as Laravel - for a small to mid-sized project, Simply Web can get you started. Want to learn how PHP works? Use it. We have added useful and basic functionalities to be called right away, vanilla PHP syntaxes and much more. 
 
