@@ -1,140 +1,72 @@
 <?php
 
-    namespace SW\Source\Server;
+    namespace App\Server;
 
     class Web {
 
-        private static $TemplateEngine;
-        private static $Pointer;
-        private static $Migrations;
-        private static $Maintenance;
+        private $Route;
+        private $Env;
 
-        public function __construct() 
-        {
-            self::Init();
+        public function __construct() {
+            // Ensure environment file exists
+            if (!\App\Server\Controller\Environment::load()) {
+                die("Unable to find the environment file!");
+            }
+
+            $this->Env = new \App\Server\Controller\Environment();
+
+            // Load Route Handle
+            $this->Route = new \App\Server\Handle\Route();
         }
 
-        private static function Init(){
-            if (self::$TemplateEngine === null) {
-                self::$TemplateEngine = new \SW\Source\Server\Engine\TemplateEngine();
-            }
+        
+        
+        public function Start() {
 
-            if (self::$Pointer === null) {
-                self::$Pointer = new \SW\Source\Modules\SimplySql\Pointer();
-            }
-
-            if (self::$Migrations === null) {
-                self::$Migrations = new \SW\Source\Server\Utilities\Migrations();
-            }
-
-            if (self::$Maintenance === null) {
-                self::$Maintenance = new \SW\Source\Server\CLI\Maintenance();
-            }
-        }
-
-        public static function RegisterCronTasks(array $tasks = []) {
-            if (!empty($tasks)) {
-                foreach ($tasks as $item) {
-                    $result = \SW\Source\Server\Utilities\Cron::Register($item["class"], $item["method"]);
-                    if (!$result) {
-                        $data = [
-                            "type" => "Error - Cron Failed",
-                            "code" => 00,
-                            "message" => "Our server failed to register certain cron tasks - which has broken our system."
-                        ];
-                        \SW\Source\Server\Engine\TemplateEngine::Render("server/message", $data);
-                        exit();
-                    }
-                }
-            }
-        }
-
-        public static function Start() {
             /*
-                Logic that will be executed when a web request is made to the app. 
-                This can be used for middleware, routing, and other custom logics you have made. 
+            Main method that will receive the requests, and process them
+            That's all - nothing else needs to be said here
             */
 
-            // Init and check for files
-            self::Init();
-            self::FileIntegrity();
-            self::CheckDatabase();
-            self::Maintenance();
+            // Environment Check
+            $this->Env->checkEnvironment();
 
-            // Check if the domain the user is visiting from is valid
-            if (!self::ValidateDomain()) {
-                // If the domain is not valid, we will display "Unauthorised domain" and stop processing the request. 
-                self::$TemplateEngine->Render("server/invalid-domain");
-                exit();
-            }
-        }
-
-        /*
-            This section is for server commands such as refresh page etc
-        */
-        public static function Refresh() {
-            header("Location: " . $_SERVER['REQUEST_URI']);
-            exit();
-        }
-
-        private static function FileIntegrity() {
             /*
-                Check if the application core files are intact
-                
-                Checks for settings file. 
+            This is the CSP protection script
+            Currently you can load in Tailwind CSS, google fonts and your local files
+            Other sources will be blocked unless specified below.
             */
+            header("Content-Security-Policy: default-src 'self'; " .
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://cdn.tailwindcss.com; " .
+            "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.google.com https://www.gstatic.com; " .
+            "frame-src https://www.google.com; " . 
+            "font-src 'self' https://fonts.gstatic.com; " .
+            "img-src 'self' data: https://www.gstatic.com; " .
+            "object-src 'none';");
 
-            if (!file_exists(ABSPATH . "/settings.php")) {
-                $data = [
-                    "type" => "Error",
-                    "code" => 404,
-                    "message" => "Unable to load settings file. Please ensure settings.php exists"
-                ];
-                self::$TemplateEngine->Render("server/message", $data);
-                exit();
-            }
-        }
-
-        private static function ValidateDomain() {
-            /*
-                Logic to validate the domain. This can include checking if the domain is in a valid format, if it is allowed by the app's configuration, etc. 
-                You can also add custom logic here to handle specific cases or requirements for your app. 
-            */
-
-            $domain = $_SERVER['HTTP_HOST'];
-            $trusted_domains = \SW\Source\Server\Engine\ConfigEngine::GetValue("trusted_domains");
-
-            if (!in_array($domain, $trusted_domains)) {
-                return false;
-            }
-
-            // if the domain is valid, return true
-            return true;
-        }
-
-        private static function CheckDatabase() {
-            $existingTables = self::$Pointer->FetchTables();
             
-            if (!in_array("server_configs", $existingTables)) {
-                self::$Migrations::Server_Configs_Check();
-            }
+            /*
+            Initialising secure cookie sessions.
+            We prefer that you do keep this!
+            */
+            ini_set('session.cookie_httponly', 1);
+            ini_set('session.cookie_secure', 1);
+            ini_set('session.use_only_cookies', 1); 
+            session_start([
+                'cookie_samesite' => 'Lax'
+            ]);
 
-            // Check if repo variable exists
-            $result = self::$Pointer->FetchField("server_configs", "config_key", "package_repository_url");
-            if ($result === null) {
-                $data = [
-                    "config_key"   => "package_repository_url",
-                    "config_value" => "https://repo.surden.me/packages/",
-                    "description"  => "The repo url - default is standard and shipped with framework"
-                ];
-                self::$Pointer->Insert("server_configs", $data);
+
+            // Fetch route try -> catch
+            try {
+                $Pkg = new \App\Server\Dependencies();
+                $this->Route->capture($Pkg->fetch());
+            } catch (\Throwable $e) {
+                die("Server Error: " . $e);
             }
+            
         }
 
-        private static function Maintenance() {
-            if (self::$Maintenance->Status()) {
-                self::$TemplateEngine->Render("server/maintenance");
-                exit();
-            }
-        }
     }
+
+?>

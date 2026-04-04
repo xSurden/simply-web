@@ -1,0 +1,5 @@
+Create default server tables for configurations
+    -> create google recaptcha v2 AND v3 - this can be chosen within the server_configuration table.
+
+
+Create caching capabilities for: DB
