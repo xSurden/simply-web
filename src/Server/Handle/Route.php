@@ -5,49 +5,49 @@
     class Route {
 
         public function capture($Dependencies = []) {
-
             /*
-            This method will be responsible how each request
-            handles data
+            This method is responsible for how each request handles data,
+            now supporting both direct files and directory-based routing.
             */
 
-            // Attepmt to find the routes file
             $Uri = self::getRoute();
+            
             if ($Uri === "/") {
                 $Uri = "/index";
             }
 
+            // Prepare dependencies for the included route files
             if (!empty($Dependencies)) {
                 extract($Dependencies);
-                ob_start();
             }
 
+            $basePath = ABSPATH . "/routes" . $Uri;
+            $fileRoute = $basePath . ".php";
+            $folderRoute = $basePath . "/index.php";
 
-            $Route = ABSPATH . "/routes" . $Uri . ".php";
-            if (file_exists($Route)) {
-                include $Route;
+            if (file_exists($fileRoute)) {
+                include $fileRoute;
+                return;
+            } 
+            
+            if (is_dir($basePath) && file_exists($folderRoute)) {
+                include $folderRoute;
                 return;
             }
 
-            // Load 404 via templater
-            $data = ["route" => self::getRoute()];
-            $Templater->load("server/404", $data);
-
+            if (isset($Templater)) {
+                $data = ["route" => self::getRoute()];
+                $Templater->load("server/404", $data);
+            } else {
+                http_response_code(404);
+                die("404 - Page not found");
+            }
         }
-
 
         public static function getRoute() {
-
             $Route = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
             $Route = rtrim($Route, "/");
-            if ($Route === "") {
-                $Route = "/";
-            }
-
-            return $Route ?? "/";
-
+            
+            return empty($Route) ? "/" : $Route;
         }
-
     }
-
-?>

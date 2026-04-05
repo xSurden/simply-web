@@ -59,9 +59,12 @@
             Initialising secure cookie sessions.
             We prefer that you do keep this!
             */
+            $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+
             ini_set('session.cookie_httponly', 1);
-            ini_set('session.cookie_secure', 1);
+            ini_set('session.cookie_secure', $isSecure ? 1 : 0); // Only 1 if HTTPS is active
             ini_set('session.use_only_cookies', 1); 
+
             session_start([
                 'cookie_samesite' => 'Lax'
             ]);
