@@ -10,8 +10,11 @@ Use code **simplyweb** for 30% off on ABR's VPS ranges (Ryzen 9 and Xeon Eco)
 If you wish to run a PHP web application that does not require massive framework such as Laravel - for a small to mid-sized project, Simply Web can get you started. Want to learn how PHP works? Use it. We have added useful and basic functionalities to be called right away, vanilla PHP syntaxes and much more. 
 
 # Installing and setting up Simply Web
-Once you have cloned/downloaded the repository, you MUST run the following command to get started up and running:
-``composer install --no-dev --optimize-autoloader``
+Once you have cloned/downloaded the repository, you MUST do the following:
+1. Upload the project to the web root.
+2. Change the web root to /public
+3. Run this composer command: ``composer install --no-dev --optimize-autoloader``
+4. Done! Visit your new website locally or while in production
 
 This will install all the required library with composer.
 
