@@ -1,4 +1,4 @@
-# Simply Web | Recoded
+# Simply Web | Recoded ([View Site](https://simplyweb.surden.me))
 A hobby PHP framework. Build advanced PHP small to mid-sized web applications quicker than before,
 with less overhead requirements, built-in useful features and simple near native syntaxes. 
 
