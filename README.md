@@ -1,4 +1,4 @@
-# Simply Web | Recoded ([View Site](https://simplyweb.surden.me))
+# Simply Web | Recoded ([View Demo Site](https://simplyweb.surden.me))
 A hobby PHP framework. Build advanced PHP small to mid-sized web applications quicker than before,
 with less overhead requirements, built-in useful features and simple near native syntaxes. 
 
@@ -8,6 +8,13 @@ Use code **simplyweb** for 30% off on ABR's VPS ranges (Ryzen 9 and Xeon Eco)
 
 # Why use Simply Web?
 If you wish to run a PHP web application that does not require massive framework such as Laravel - for a small to mid-sized project, Simply Web can get you started. Want to learn how PHP works? Use it. We have added useful and basic functionalities to be called right away, vanilla PHP syntaxes and much more. 
+
+# Requirements
+- Composer
+- Web Server (Apache2 or Nginx or others)
+- PHP 8.0 and higher
+- Document Root change
+- .htaccess capabilities (From Apache2) Nginx will also work if you have configured the server block properly (attached). 
 
 # Installing and setting up Simply Web
 Once you have cloned/downloaded the repository, you MUST do the following:
@@ -54,13 +61,6 @@ server {
     error_log  /var/log/nginx/domain.com.error.log error;
 }
 ```
-
-# Requirements
-- Composer
-- Web Server (Apache2 or Nginx or others)
-- PHP 8.0 and higher
-- Document Root change
-- .htaccess capabilities (From Apache2) Nginx will also work if you have configured the server block properly (attached). 
 
 # Disclaimers
 This framework is super simple, while not on the same level as Laravel, it is quite educational to get a deeper understanding of how PHP works, with database handling and much more. Feel free to look around, edit anything you like and make your own.
