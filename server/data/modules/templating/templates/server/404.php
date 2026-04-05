@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= $Environment->get("APP_NAME") ?? "App Name" ?> | Ready to Build</title>
+        <title><?= $Environment->get("APP_NAME") ?? "App Name" ?> | 404 Not Found</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap');
@@ -28,6 +28,12 @@
                             <div>
                                 <p class="font-bold text-slate-800">Requested Route: <?= $route ?? "null" ?></p>
                                 <p class="text-sm text-slate-500">The page you are looking for does not exist.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div>
+                                <p class="font-bold text-slate-800">For the app's developer(s)</p>
+                                <p class="text-sm text-slate-500">Ensure that the route file exists in the folder <span class="text-red-600">/routes/your_route.php</span>.</p>
                             </div>
                         </div>
                     </div>
