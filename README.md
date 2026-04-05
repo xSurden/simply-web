@@ -11,7 +11,7 @@ If you wish to run a PHP web application that does not require massive framework
 
 # Installing and setting up Simply Web
 Once you have cloned/downloaded the repository, you MUST run the following command to get started up and running:
-composer install --no-dev --optimize-autoloader
+``composer install --no-dev --optimize-autoloader``
 
 This will install all the required library with composer.
 
