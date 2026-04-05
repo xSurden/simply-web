@@ -14,20 +14,13 @@
     <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col items-center justify-center p-6">
 
         <div class="max-w-3xl w-full">
-            <div class="text-center mb-10">
-                <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-4 leading-tight">
-                    <span class="text-red-600">404 Not Found</span>
-                </h1>
-            </div>
-
             <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden mb-8">
                 <div class="p-8">
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-blue-600 mb-6">What happened?</h2>
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-blue-600 mb-6">Server Error</h2>
                     <div class="space-y-6">
                         <div class="flex gap-4">
                             <div>
-                                <p class="font-bold text-slate-800">Route Error: <?= \App\Server\Handle\Route::getRoute() ?? "Server Error: Route class ran into a problem" ?></p>
-                                <p class="text-sm text-slate-500">The page you are looking for does not exist.</p>
+                                <p class="text-sm text-slate-500"><?= $server_error_message ?></p>
                             </div>
                         </div>
                     </div>

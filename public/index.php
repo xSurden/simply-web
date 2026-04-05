@@ -8,7 +8,7 @@
 
     // Suppressing the error
     error_reporting(E_ALL);
-    ini_set('display_errors', 0);
+    ini_set('display_errors', 1);
 
     // Loading required definitions & load composer
     define("ABSPATH", __DIR__ . "/..");

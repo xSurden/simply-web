@@ -34,7 +34,7 @@
                             <div class="text-blue-500 font-bold text-xl flex-shrink-0">→</div>
                             <div>
                                 <p class="font-bold text-slate-800">Small-mid sized projects</p>
-                                <p class="text-sm text-slate-500">Faster coding, templating and security out of the box.</p>
+                                <p class="text-sm text-slate-500">Faster coding, templating and security out of the box while maintaining the vanilla PHP development experience.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
