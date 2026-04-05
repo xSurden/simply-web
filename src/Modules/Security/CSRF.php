@@ -13,14 +13,12 @@
         public function validate(bool $rotate = false) {
              if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token'])) {
                 throw new \Exception("Unable to validate CSRF token: Missing?");
-                return;
             }
 
             $isValid = hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']);
 
             if (!$isValid) {
                 throw new \Exception("Unable to validate CSRF token: Invalid Token");
-                return;
             }
 
             if ($rotate) {
