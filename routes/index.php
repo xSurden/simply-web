@@ -28,19 +28,26 @@
 
             <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden mb-8">
                 <div class="p-8">
-                    <h2 class="text-sm font-bold uppercase tracking-widest text-blue-600 mb-6">What to create?</h2>
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-blue-600 mb-6">About Simply Web</h2>
                     <div class="space-y-6">
                         <div class="flex gap-4">
                             <div class="text-blue-500 font-bold text-xl flex-shrink-0">→</div>
                             <div>
-                                <p class="font-bold text-slate-800">Small-mid sized projects</p>
-                                <p class="text-sm text-slate-500">Faster coding, templating and security out of the box.</p>
+                                <p class="font-bold text-slate-800">For small-mid sized projects</p>
+                                <p class="text-sm text-slate-500">Faster coding, templating and security out of the box while maintaining the vanilla PHP development experience.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="text-blue-500 font-bold text-xl flex-shrink-0">→</div>
                             <div>
-                                <p class="font-bold text-slate-800">Educational</p>
+                                <p class="font-bold text-slate-800">Universally Compatible</p>
+                                <p class="text-sm text-slate-500">Requires only a webserver and PHP - nothing else. We have tested this with Laragon, XAMPP, HestiaCP and PHP-Cli. As long as <span class="text-blue-600">.htaccess</span> is compatible, or if you are using Nginx, you can use our template located in the root directory (<span class="text-blue-600">nginx.conf</span>).</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-blue-500 font-bold text-xl flex-shrink-0">→</div>
+                            <div>
+                                <p class="font-bold text-slate-800">Learning PHP</p>
                                 <p class="text-sm text-slate-500">Simply Web bridges the gap between raw scripting and enterprise architecture. Master PHP fundamentals like Namespaces, Traits, and PSR standards without leaving the native PHP ecosystem.</p>
                             </div>
                         </div>

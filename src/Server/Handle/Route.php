@@ -29,7 +29,9 @@
                 return;
             }
 
-            include ABSPATH . "/server/404.php";
+            // Load 404 via templater
+            $data = ["route" => self::getRoute()];
+            $Templater->load("server/404", $data);
 
         }
 

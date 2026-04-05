@@ -6,6 +6,9 @@
 
         private $Route;
         private $Env;
+        private $Dependencies;
+        private $Maintenance;
+        private $Templater;
 
         public function __construct() {
             // Ensure environment file exists
@@ -14,9 +17,10 @@
             }
 
             $this->Env = new \App\Server\Controller\Environment();
-
-            // Load Route Handle
+            $this->Maintenance = new \App\Server\Utilities\Maintenance();
             $this->Route = new \App\Server\Handle\Route();
+            $this->Dependencies = new \App\Server\Dependencies();
+            $this->Templater = new \App\Modules\Templating\Templater();
         }
 
         
@@ -30,6 +34,12 @@
 
             // Environment Check
             $this->Env->checkEnvironment();
+
+            // Check if maintenance is enabled
+            if ($this->Maintenance->status()) {
+                $this->Templater->load("server/maintenance", $this->Dependencies->fetch());
+                die;
+            }
 
             /*
             This is the CSP protection script
@@ -59,12 +69,21 @@
 
             // Fetch route try -> catch
             try {
-                $Pkg = new \App\Server\Dependencies();
-                $this->Route->capture($Pkg->fetch());
+                $this->Route->capture($this->Dependencies->fetch());
             } catch (\Throwable $e) {
-                die("Server Error: " . $e);
+                // Log the error to web server
+                error_log($e->getMessage());
+
+                if (!class_exists('\App\Modules\Templating\Templater')) {
+                    die("Fatal Error: Templater class missing. Original error: " . $e->getMessage());
+                }
+                $data = [
+                    "server_error_message" => $e->getMessage(),
+                    "server_error_trace" => $e->getTraceAsString()
+                ];
+                $this->Templater->load("server/server_error", $data);
             }
-            
+                        
         }
 
     }
