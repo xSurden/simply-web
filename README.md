@@ -56,11 +56,11 @@ server {
 ```
 
 # Requirements
-Composer
-Web Server (Apache2 or Nginx or others)
-PHP 8.0 and higher
-Document Root change
-.htaccess capabilities (From Apache2) Nginx will also work if you have configured the server block properly (attached). 
+- Composer
+- Web Server (Apache2 or Nginx or others)
+- PHP 8.0 and higher
+- Document Root change
+- .htaccess capabilities (From Apache2) Nginx will also work if you have configured the server block properly (attached). 
 
 # Disclaimers
 This framework is super simple, while not on the same level as Laravel, it is quite educational to get a deeper understanding of how PHP works, with database handling and much more. Feel free to look around, edit anything you like and make your own.
