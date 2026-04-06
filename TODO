@@ -1,2 +1,2 @@
 Create caching capabilities for: DB
-Cron Jobs capabilities
+Migrate Cron to SQLite (to allow for dashboard management of cron tasks)

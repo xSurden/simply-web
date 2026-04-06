@@ -4,13 +4,11 @@
 
     class CLI {
 
-        private $Maintenance;
-        private $Cron;
-
-        public function __construct() {
-            $this->Maintenance = new \App\Server\Utilities\Maintenance();
-            $this->Cron = new \App\Server\Utilities\Cron();
-        }
+        /**
+         * Dynamically run a utility class method
+         * @param string $class_name The name of the utility (e.g., 'Cron' or 'Maintenance')
+         * @param string $method     The method to fire (e.g., 'run' or 'on')
+         */
 
         public function run($class_name = null, $method = null) {
 
@@ -19,23 +17,21 @@
                     return false;
                 }
 
-                // Ensure we match the property name exactly (Maintenance)
-                $prop = ucfirst(strtolower($class_name));
+                $fullClass = "App\\Server\\Utilities\\" . ucfirst(strtolower($class_name));
 
-                // Check if the property exists on this class instance
-                if (property_exists($this, $prop) && $this->$prop !== null) {
-                    $service = $this->$prop;
+                if (class_exists($fullClass)) {
+                    
+                    $service = new $fullClass();
 
                     if (method_exists($service, $method)) {
                         return $service->$method();
                     }
                 }
 
-                throw new \Exception("[CLI] Error: Command '$prop:$method' not found." . PHP_EOL);
+                throw new \Exception("Command '$class_name:$method' not found (Checked: $fullClass)");
 
             } catch (\Exception $e) {
                 die("CLI Failure: " . $e->getMessage() . PHP_EOL);
             }
-            
         }
     }

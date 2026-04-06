@@ -10,8 +10,8 @@
 
         public function __construct()
         {
-            $db = new \App\Modules\Database\DB();
-            $this->conn = $db->createConnection();
+            $DB = new \App\Modules\Database\DB();
+            $this->conn = $DB->createConnection();
         }
 
         private function sanitize($string) {
