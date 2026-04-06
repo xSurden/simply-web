@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= $Environment->get("APP_NAME") ?? "App Name" ?> | 404 Not Found</title>
+        <title><?= $Env->get("APP_NAME") ?? "App Name" ?> | 404 Not Found</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap');
@@ -42,7 +42,7 @@
             </div>
 
             <div class="flex justify-center space-x-6 text-sm font-semibold text-slate-400">
-                <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Environment->getMicroTime() ?>ms</span></span>
+                <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Env->getMicroTime() ?>ms</span></span>
             </div>
         </div>
 

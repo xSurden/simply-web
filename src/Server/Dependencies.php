@@ -13,7 +13,7 @@
             */
 
             $this->Dependencies = [
-                "Environment" => new \App\Server\Controller\Environment(),
+                "Env" => new \App\Server\Controller\Environment(),
                 "Templater" => new \App\Modules\Templating\Templater()
             ];
         }

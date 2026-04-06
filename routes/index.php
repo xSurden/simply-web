@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= $Environment->get("APP_NAME") ?? "App Name" ?> | Ready to Build</title>
+        <title><?= $Env->get("APP_NAME") ?? "App Name" ?> | Ready to Build</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap');
@@ -41,7 +41,7 @@
                             <div class="text-blue-500 font-bold text-xl flex-shrink-0">→</div>
                             <div>
                                 <p class="font-bold text-slate-800">Universally Compatible</p>
-                                <p class="text-sm text-slate-500">Requires only a webserver and PHP - nothing else. We have tested this with Laragon, XAMPP, HestiaCP and PHP-Cli. As long as <span class="text-blue-600">.htaccess</span> is compatible, or if you are using Nginx, you can use our template located in the root directory (<span class="text-blue-600">nginx.conf</span>).</p>
+                                <p class="text-sm text-slate-500">Requires only a webserver and PHP - nothing else. We have tested this with Laragon, XAMPP and HestiaCP. As long as <span class="text-blue-600">.htaccess</span> is compatible, or if you are using Nginx, you can use our template located in the root directory (<span class="text-blue-600">nginx.conf</span>) or within the README.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
@@ -61,7 +61,7 @@
                     <i class="fab fa-github"></i> Github Repository
                 </a>
                 <span class="text-slate-200">|</span>
-                <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Environment->getMicroTime() ?>ms</span></span>
+                <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Env->getMicroTime() ?>ms</span></span>
             </div>
         </div>
 
