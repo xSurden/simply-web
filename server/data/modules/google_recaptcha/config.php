@@ -7,6 +7,7 @@
         ],
 
         "site_v3" => [
+            "threshold" => 0.5,
             "site_key"   => "", 
             "secret_key" => ""
         ]

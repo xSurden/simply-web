@@ -7,6 +7,7 @@
         private $ConfigRepo = ABSPATH . "/server/data/modules/google_recaptcha/config.php";
         private $Credentials_v2;
         private $Credentials_v3;
+        private $Threshold;
 
         public function __construct() {
             if (!file_exists($this->ConfigRepo)) {
@@ -21,6 +22,7 @@
 
             $this->Credentials_v2 = $ConfigData["site_v2"] ?? [];
             $this->Credentials_v3 = $ConfigData["site_v3"] ?? [];
+            $this->Threshold = $ConfigData["site_v3"]["threshold"] ?? 0.5;
         }
 
         public function loadv2() {
@@ -33,7 +35,7 @@
             return $html;
         }
 
-        public function loadv3(string $action = 'homepage') {
+        public function loadv3(string $action) {
             $siteKey = $this->Credentials_v3["site_key"] ?? null;
             if (!$siteKey) return "";
 
@@ -55,11 +57,11 @@
             return $this->performVerify($this->Credentials_v2["secret_key"] ?? null, $response);
         }
 
-        public function verify_v3($response, float $threshold = 0.5) {
+        public function verify_v3($response) {
             $secretKey = $this->Credentials_v3["secret_key"] ?? null;
             $result = $this->performVerify($secretKey, $response);
 
-            if ($result && isset($result->success) && $result->success && isset($result->score) && $result->score >= $threshold) {
+            if ($result && isset($result->success) && $result->success && isset($result->score) && $result->score >= $this->Threshold) {
                 return true;
             }
 
