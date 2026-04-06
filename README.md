@@ -1,13 +1,9 @@
 # Simply Web | Recoded ([View Demo Site](https://simplyweb.surden.me))
-A hobby PHP framework. Build advanced PHP small to mid-sized web applications quicker than before,
-with less overhead requirements, built-in useful features and simple near native syntaxes. 
+A simple and lightweight PHP framework - built for hobbyists, small to mid sized projects and for educational purposes. 
 
 ## Sponsered by ABRHosting.com
 Use code **simplyweb** for 30% off on ABR's VPS ranges (Ryzen 9 and Xeon Eco)
 [![ABRHosting Website Link](https://abrhosting.com/assets/img/logo%20(1).png)](https://abrhosting.com)
-
-# Why use Simply Web?
-If you wish to run a PHP web application that does not require massive framework such as Laravel - for a small to mid-sized project, Simply Web can get you started. Want to learn how PHP works? Use it. We have added useful and basic functionalities to be called right away, vanilla PHP syntaxes and much more. 
 
 # Requirements
 - Composer
@@ -20,12 +16,14 @@ If you wish to run a PHP web application that does not require massive framework
 Once you have cloned/downloaded the repository, you MUST do the following:
 1. Upload the project to the web root.
 2. Change the web root to /public
-3. Run this composer command: ``composer install --no-dev --optimize-autoloader``
+3. Run this composer command to install the required libraries: ``composer install --no-dev --optimize-autoloader``
 4. Done! Visit your new website locally or while in production
 
-This will install all the required library with composer.
+## Apache2 + .htaccess (Easy)
+This is the main way we run Simply Web. Simply create the site normally and Apache2 will handle the rest.
 
 ## Nginx specific config
+Nginx does not utilise .htaccess files. In this case, the following server block (HTTP) should be fine. 
 ```
 server {
     listen 80;
@@ -63,6 +61,5 @@ server {
 ```
 
 # Disclaimers
-This framework is super simple, while not on the same level as Laravel, it is quite educational to get a deeper understanding of how PHP works, with database handling and much more. Feel free to look around, edit anything you like and make your own.
-
-We are not responsible for any data leaks or damages as this is not production ready.
+This framework is not production ready or is ready for any production releases of software. 
+If you are happy to use this framework due to lower overheads and faster - more native execution times, you can, however we are not responsible for any vulnerabilities as this is an educational framework and should not be handling sensitive information. You have been warned. 
