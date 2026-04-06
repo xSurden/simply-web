@@ -7,8 +7,8 @@
         private $Repo_URL;
 
         public function __construct() {
-            $Environment = new \App\Server\Controller\Environment();
-            $this->Repo_URL = $Environment->get("REPO_URL");
+            $Env = new \App\Server\Controller\Environment();
+            $this->Repo_URL = $Env->get("REPO_URL");
 
             if (str_ends_with($this->Repo_URL, "/")) {
                 $this->Repo_URL = substr($this->Repo_URL, 0, -1);
@@ -76,7 +76,7 @@
                 }
 
                 if (!file_exists($path)) {
-                    throw new \Exception("Verification failed: File not found at " . $path);
+                    throw new \Exception("Verification File not found at " . $path);
                 }
 
                 return true;

@@ -17,13 +17,21 @@ Once you have cloned/downloaded the repository, you MUST do the following:
 1. Upload the project to the web root.
 2. Change the web root to /public
 3. Run this composer command to install the required libraries: ``composer install --no-dev --optimize-autoloader``
-4. Done! Visit your new website locally or while in production
+4. Adding tasks to Crontab:
+```
+# Run the following and add to the end of the crontab file:
+crontab -e
+
+# Add the following to the end of the file:
+* * * * * php /var/www/html/server/scripts/run_cron.php >> /dev/null 2>&1
+```
+5. Done! Visit your new website locally or while in production
 
 ## Apache2 + .htaccess (Easy)
 This is the main way we run Simply Web. Simply create the site normally and Apache2 will handle the rest.
 
-## Nginx specific config
-Nginx does not utilise .htaccess files. In this case, the following server block (HTTP) should be fine. 
+## Nginx (Untested)
+Nginx does not utilise .htaccess files. In this case, the following server block (HTTP) should be fine. However, we have not tested this. If this does not work and you have an alternative - working solution, you can let me know via email: hi@surden.me 
 ```
 server {
     listen 80;

@@ -29,7 +29,7 @@
             </div>
 
             <div class="flex justify-center space-x-6 text-sm font-semibold text-slate-400">
-                <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Environment->getMicroTime() ?>ms</span></span>
+                <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Env->getMicroTime() ?>ms</span></span>
             </div>
         </div>
 

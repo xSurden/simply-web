@@ -1,0 +1,55 @@
+#!/usr/bin/php
+<?php
+
+    if (!defined('ABSPATH')) {
+        define('ABSPATH', __DIR__);
+    }
+
+    require_once __DIR__ . '/vendor/autoload.php'; 
+
+    $Pkg = new \App\Server\Utilities\CLI();
+
+    $command = $argv[1] ?? null;
+
+    if (!$command) {
+        die("Usage: simplyweb [command]\n");
+    }
+
+    switch ($command) {
+
+        /*
+        Maintenance Section
+        */
+        case "app:maintenance:on":
+            if ($Pkg->run("Maintenance", "on")) {
+                echo "Enabled maintenance mode\n";
+            } else {
+                die("Unable to enable maintenance mode\n");
+            }
+            break; 
+
+        case "app:maintenance:off":
+            if ($Pkg->run("Maintenance", "off")) {
+                echo "Disabled maintenance mode\n";
+            } else {
+                die("Unable to disable maintenance mode\n");
+            }
+            break; 
+
+
+        /*
+        Cron jobs section
+        Will be able to use app:cron:run
+        */
+
+        case "app:cron:run":
+            if ($Pkg->run("Cron", "run")) {
+                echo "Cron Job has ran successfully\n";
+                break;
+            } else {
+                die("Unable to run cron job\n");
+            }
+
+        default:
+            die("Error: Unknown command '$command'\n");
+    }
