@@ -70,12 +70,12 @@ server {
     add_header Content-Security-Policy "frame-ancestors 'self'";
     add_header X-Frame-Options DENY;
     add_header Referrer-Policy same-origin;
-    # add_header Strict-Transport-Security "max-age=15768000; preload;"; # Uncomment after testing SSL
+    add_header Strict-Transport-Security "max-age=15768000; preload;";
 
     # Performance & Uploads
     client_max_body_size 100m;
     client_body_timeout 120s;
-    sendfile on; # Changed to 'on' for better performance on standard Linux setups
+    sendfile on; 
     charset utf-8;
 
     location / {
