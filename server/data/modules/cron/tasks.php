@@ -1,7 +1,7 @@
 <?php
 
     return [
-        "App\Addons\TestCron\Main" => "runCron"
+        "App\Addons\TestAddon\Cron" => "run"
     ];
 
 ?>

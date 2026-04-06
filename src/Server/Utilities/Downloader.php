@@ -6,19 +6,21 @@
 
         private $Repo_URL;
 
+        private $Networking;
+
         public function __construct() {
             $Env = new \App\Server\Controller\Environment();
-            $this->Repo_URL = $Env->get("REPO_URL");
+            $this->Networking = new \App\Server\Utilities\Networking();
 
+
+            $this->Repo_URL = $Env->get("REPO_URL");
             if (str_ends_with($this->Repo_URL, "/")) {
                 $this->Repo_URL = substr($this->Repo_URL, 0, -1);
             }
 
-            $Networking = new \App\Server\Utilities\Networking();
-            $status = $Networking->getCode($this->Repo_URL);
-
+            $status = $this->Networking->getCode($this->Repo_URL);
             $allowedCodes = [0, 200, 403, null, ""];
-            
+        
             if (!in_array($status, $allowedCodes, true)) {
                 throw new \Exception("Unable to connect to the repository base: " . $this->Repo_URL . " (Code: " . $status . ")");
             }
@@ -41,8 +43,7 @@
                 throw new \Exception("Download parameters cannot be null");
             }
 
-            $Networking = new \App\Server\Utilities\Networking();
-            $code = $Networking->getCode($url);
+            $code = $this->Networking->getCode($url);
 
             if ($code !== 200 && $code !== 403 && $code !== 0) {
                 throw new \Exception("Remote file unreachable: " . $url . " (Code: " . $code . ")");
