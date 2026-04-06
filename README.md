@@ -22,7 +22,8 @@ Once you have cloned/downloaded the repository, you MUST do the following:
 # Run the following and add to the end of the crontab file:
 crontab -e
 
-# Add the following to the end of the file:
+# Add the following to the end of the file
+# If it is different path, update the path: /var/www/html/ to your desired path
 * * * * * php /var/www/html/server/scripts/run_cron.php >> /dev/null 2>&1
 ```
 5. Done! Visit your new website locally or while in production
