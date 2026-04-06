@@ -11,7 +11,7 @@
         private $port;
         private $user;
         private $password;
-        private $db_name;
+        private $DB_name;
 
         public function __construct()
         {
@@ -19,7 +19,7 @@
 
             $this->host = $this->env->get("DB_HOST");
             $this->port = $this->env->get("DB_PORT");
-            $this->db_name = $this->env->get("DB_NAME");
+            $this->DB_name = $this->env->get("DB_NAME");
             $this->user = $this->env->get("DB_USER");
             $this->password = $this->env->get("DB_PASSWORD");
         }
@@ -27,7 +27,7 @@
         public function createConnection() {
             
             try {
-                $conn = new \PDO("mysql:host=$this->host;dbname=$this->db_name;port=$this->port", $this->user, $this->password);
+                $conn = new \PDO("DB:host=$this->host;DBname=$this->DB_name;port=$this->port", $this->user, $this->password);
                 $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 return $conn;
             } catch (\PDOException $e) {
