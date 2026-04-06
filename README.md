@@ -1,5 +1,5 @@
 # Simply Web | Recoded ([View Demo Site](https://simplyweb.surden.me))
-[![Simply Web Icon](https://cdn.adastra-project.com/img/acafa44e-7b0a-4f59-9d26-3adf0fd34743.jpg)]
+![Simply Web Icon](https://cdn.adastra-project.com/img/acafa44e-7b0a-4f59-9d26-3adf0fd34743.jpg)
 A simple and lightweight PHP framework - built for hobbyists, small to mid sized projects and for educational purposes. 
 
 ## Sponsered by ABRHosting.com
