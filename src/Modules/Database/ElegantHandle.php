@@ -18,51 +18,72 @@
             return preg_replace("/[^a-zA-Z0-9_]/", "", $string);
         }
 
-        public function createTable($name, $dataArray) {
-            if (!$name || empty($dataArray)) {
-                return false;
+        public function select($table, $where = [], $limit = null, $order = null, $offset = null) {
+            $table = $this->sanitize($table);
+            $sql = "SELECT * FROM `$table`";
+            $values = [];
+
+            if (!empty($where)) {
+                $conditions = [];
+                foreach ($where as $col => $val) {
+                    $col = $this->sanitize($col);
+                    $conditions[] = "`$col` = ?";
+                    $values[] = $val;
+                }
+                $sql .= " WHERE " . implode(" AND ", $conditions);
             }
 
-            $name = $this->sanitize($name);
-            $columns = [];
+            if ($order) {
+                $sql .= " ORDER BY " . $order; 
+            }
 
-            foreach ($dataArray as $column => $definition) {
-                $column = $this->sanitize($column);
-                $columns[] = "`$column` $definition";
-            } 
+            if ($limit !== null) {
+                $sql .= " LIMIT " . (int)$limit;
+            }
 
-            $sql = "CREATE TABLE IF NOT EXISTS `$name` (" . implode(', ', $columns) . ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
-            return $this->conn->exec($sql) !== false;
+            if ($offset !== null) {
+                $sql .= " OFFSET " . (int)$offset;
+            }
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($values);
+            
+            return ($limit === 1) ? $stmt->fetch(PDO::FETCH_ASSOC) : $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function fetchTables() {
-            $stmt = $this->conn->query("SHOW TABLES");
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        public function fetchTable($table, $limit = 100, $order = "id DESC") {
+            return $this->select($table, [], $limit, $order);
         }
 
-        public function fetchTable($table) {
+        public function fetchField($table, $column, $key, $limit = 1) {
+            return $this->select($table, [$column => $key], $limit);
+        }
+
+        public function count($table, $where = []) {
             $table = $this->sanitize($table);
-            if (!$table) return [];
+            $sql = "SELECT COUNT(*) as total FROM `$table`";
+            $values = [];
 
-            $stmt = $this->conn->query("SELECT * FROM `$table`");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!empty($where)) {
+                $conditions = [];
+                foreach ($where as $col => $val) {
+                    $col = $this->sanitize($col);
+                    $conditions[] = "`$col` = ?";
+                    $values[] = $val;
+                }
+                $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($values);
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+            return (int)$res['total'];
         }
 
-        public function fetchField($table, $column, $key) {
+        public function insert($table, $data = []) {
+            if (empty($data)) return false;
             $table = $this->sanitize($table);
-            $column = $this->sanitize($column);
-
-            if (!$table || !$column) return null;
-
-            $stmt = $this->conn->prepare("SELECT * FROM `$table` WHERE `$column` = ? LIMIT 1");
-            $stmt->execute([$key]);
-            return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-        }
-
-        public function insert($table = null, $data = []) {
-            if (!$table || empty($data)) return false;
-
-            $table = $this->sanitize($table);
+            
             $fields = array_map([$this, 'sanitize'], array_keys($data));
             $placeholders = array_fill(0, count($data), '?');
 
@@ -70,23 +91,20 @@
             return $this->conn->prepare($sql)->execute(array_values($data));
         }
 
-        public function update($table = null, $data = [], $where = []) {
-            if (!$table || empty($data) || empty($where)) return false;
-
+        public function update($table, $data = [], $where = []) {
+            if (empty($data) || empty($where)) return false;
             $table = $this->sanitize($table);
-            $values = [];
+            
             $set = [];
-            $conditions = [];
-
+            $values = [];
             foreach ($data as $f => $v) {
-                $f = $this->sanitize($f);
-                $set[] = "`$f` = ?";
+                $set[] = "`" . $this->sanitize($f) . "` = ?";
                 $values[] = $v;
             }
 
+            $conditions = [];
             foreach ($where as $f => $v) {
-                $f = $this->sanitize($f);
-                $conditions[] = "`$f` = ?";
+                $conditions[] = "`" . $this->sanitize($f) . "` = ?";
                 $values[] = $v;
             }
 
@@ -94,16 +112,14 @@
             return $this->conn->prepare($sql)->execute($values);
         }
 
-        public function delete($table = null, $where = []) {
-            if (!$table || empty($where)) return false;
-
+        public function delete($table, $where = []) {
+            if (empty($where)) return false;
             $table = $this->sanitize($table);
+            
             $conditions = [];
             $values = [];
-
             foreach ($where as $f => $v) {
-                $f = $this->sanitize($f);
-                $conditions[] = "`$f` = ?";
+                $conditions[] = "`" . $this->sanitize($f) . "` = ?";
                 $values[] = $v;
             }
 
@@ -111,10 +127,19 @@
             return $this->conn->prepare($sql)->execute($values);
         }
 
-        public function dropTable($table = null) {
-            $table = $this->sanitize($table);
-            if (!$table) return false;
+        
+        public function createTable($name, $dataArray) {
+            $name = $this->sanitize($name);
+            $columns = [];
+            foreach ($dataArray as $column => $definition) {
+                $columns[] = "`" . $this->sanitize($column) . "` $definition";
+            } 
+            $sql = "CREATE TABLE IF NOT EXISTS `$name` (" . implode(', ', $columns) . ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+            return $this->conn->exec($sql) !== false;
+        }
 
+        public function dropTable($table) {
+            $table = $this->sanitize($table);
             return $this->conn->exec("DROP TABLE IF EXISTS `$table`") !== false;
         }
     }

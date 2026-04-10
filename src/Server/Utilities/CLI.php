@@ -11,16 +11,19 @@
          */
 
         public function run($class_name = null, $method = null) {
-
             try {
                 if (!$class_name || !$method) {
                     return false;
                 }
 
-                $fullClass = "App\\Server\\Utilities\\" . ucfirst(strtolower($class_name));
+                if (strpos($class_name, 'App\\') === 0) {
+                    $fullClass = $class_name;
+                } else {
+                    $formattedClassName = ucfirst(strtolower($class_name));
+                    $fullClass = __NAMESPACE__ . "\\" . $formattedClassName;
+                }
 
                 if (class_exists($fullClass)) {
-                    
                     $service = new $fullClass();
 
                     if (method_exists($service, $method)) {

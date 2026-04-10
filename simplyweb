@@ -17,11 +17,23 @@
 
     switch ($command) {
 
+
+        /*
+        System section
+        */
+        case "app:system:loadModules":
+            if ($Pkg->run("App\Server\LoadModules", "load")) {
+                echo "Loaded Modules\n";
+            } else {
+                die("Unable to run LoadModules->load()\n");
+            }
+            break;
+
         /*
         Maintenance Section
         */
         case "app:maintenance:on":
-            if ($Pkg->run("Maintenance", "on")) {
+            if ($Pkg->run("App\Server\Utilities\Maintenance", "on")) {
                 echo "Enabled maintenance mode\n";
             } else {
                 die("Unable to enable maintenance mode\n");
@@ -29,7 +41,7 @@
             break; 
 
         case "app:maintenance:off":
-            if ($Pkg->run("Maintenance", "off")) {
+            if ($Pkg->run("App\Server\Utilities\Maintenance", "off")) {
                 echo "Disabled maintenance mode\n";
             } else {
                 die("Unable to disable maintenance mode\n");
@@ -43,7 +55,7 @@
         */
 
         case "app:cron:run":
-            if ($Pkg->run("Cron", "run")) {
+            if ($Pkg->run("App\Server\Utilities\Cron", "run")) {
                 echo "Cron Job has ran successfully\n";
                 break;
             } else {
