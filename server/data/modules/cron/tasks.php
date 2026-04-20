@@ -10,7 +10,7 @@
     */
 
     return [
-        "App\Addons\TestAddon\Cron" => "run"
+        "App\Server\Utilities\Cache" => "runCron"
     ];
 
 ?>

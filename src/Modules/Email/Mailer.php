@@ -7,7 +7,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 
     class Mailer {
 
-        private $Env;
+        // Init in case $Env is not available
+        private $Environment;
 
         private $host;
         private $port;
@@ -22,6 +23,8 @@ use PHPMailer\PHPMailer\PHPMailer;
             // Check if the env is set - if not, initialise a new instance
             if (!isset($Env)) {
                 $this->Environment = new \App\Server\Controller\Environment();
+            } else {
+                $this->Environment = $Env;
             }
         }
 

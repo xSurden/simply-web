@@ -25,15 +25,15 @@
         }
 
         public function createConnection() {
-            
             try {
-                $conn = new \PDO("DB:host=$this->host;DBname=$this->DB_name;port=$this->port", $this->user, $this->password);
+                $dsn = "mysql:host=$this->host;dbname=$this->DB_name;port=$this->port;charset=utf8mb4";
+                
+                $conn = new \PDO($dsn, $this->user, $this->password);
                 $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 return $conn;
             } catch (\PDOException $e) {
-                die("Server Error: " . $e);
+                throw new \Exception("Database Connection Failure: " . $e->getMessage());
             }
-
         }
 
     }
