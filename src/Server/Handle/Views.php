@@ -14,7 +14,7 @@
                 throw new Exception("Unable to load view: Not provided");
             }
 
-            $path_built = $this->default_route . $view_name;
+            $path_built = $this->default_route . $view_name . ".php";
 
             if (file_exists($path_built)) {
                 if (!empty($dependencies)) {
@@ -25,7 +25,7 @@
                     extract($Dependencies->fetch());
                     ob_start();
                 }
-                include $path_built . ".php";
+                include $path_built;
                 return true;
             }
 
