@@ -14,7 +14,8 @@
 
             $this->Dependencies = [
                 "Env" => new \App\Server\Controller\Environment(),
-                "Templater" => new \App\Modules\Templating\Templater()
+                "Templater" => new \App\Modules\Templating\Templater(),
+                "Views" => new \App\Server\Handle\Views()
             ];
         }
 
