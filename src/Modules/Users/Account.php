@@ -1,54 +1,110 @@
 <?php
 
-
     namespace App\Modules\Users;
 
     use App\Modules\Database\ElegantHandle;
+    use Exception;
 
     class Account extends ElegantHandle {
 
-
-        /*
-        Variables that will be used here
-        */
-
         private $schema_folder = "/server/data/modules/users";
+        private $table = "users";
 
-
-        /*
-        Ensure that all of the required table exists
-        */
         public function __construct() {
+            
+            // Initialize the database connection from ElegantHandle
+            parent::__construct();
 
-            // Check if folder for server data exists
+            // Ensure schema directory exists
             if (!is_dir($this->schema_folder)) {
-                try {
-                    mkdir($this->schema_folder);
-                } catch (\Exception $e) {
-                    throw new \Exception($e->getMessage());
+                if (!mkdir($this->schema_folder, 0755, true)) {
+                    throw new Exception("Failed to create schema directory.");
                 }
             }
 
-            // Check default schemas - if not available, download from repo.
             $Helper = new \App\Modules\Users\Helper();
-            // Fetch the php file and then load all helpers
-            $schema_file = require $this->schema_folder . "/schema.php";
-            foreach ($schema_file as $schema) {
-                $Helper->getSchema($schema);
+            $schema_file = $this->schema_folder . "/schema.php";
+            
+            if (file_exists($schema_file)) {
+                $schemas = require $schema_file;
+                foreach ($schemas as $schema) {
+                    $Helper->getSchema($schema);
+                    $Helper->migrateSchema($schema);
+                }
+            }
+        }
+
+        /**
+         * Register a new user
+         */
+        public function registerUser($data = []) {
+            if (empty($data['username']) || empty($data['email']) || empty($data['password'])) {
+                throw new Exception("Registration requires username, email, and password.");
             }
 
-            // Perform migration if table does not exist
+            // Prevent duplicate accounts
+            if ($this->count($this->table, ['email' => $data['email']]) > 0) {
+                throw new Exception("Email is already registered.");
+            }
+
+            $userData = [
+                'username' => $data['username'],
+                'email'    => $data['email'],
+                'password' => password_hash($data['password'], PASSWORD_BCRYPT),
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            return $this->insert($this->table, $userData);
         }
 
+        /**
+         * Login user
+         */
+        public function login($email, $password) {
+            $user = $this->select($this->table, ['email' => $email]);
+            $user = is_array($user) && isset($user[0]) ? $user[0] : null;
 
+            if (!$user || !password_verify($password, $user['password'])) {
+                throw new Exception("Invalid credentials.");
+            }
 
-        /*
-        Public methods such as: login, register, getSession, logout
-        */
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            $_SESSION['user_id'] = $user['id'];
+            return true;
+        }
 
-
-        // Get session
+        /**
+         * Get current session user ID
+         */
         public function getSession() {
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            return $_SESSION['user_id'] ?? null;
         }
 
+        /**
+         * Terminate session
+         */
+        public function logout() {
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            session_unset();
+            session_destroy();
+        }
+
+        /**
+         * Reset password for an existing user
+         */
+        public function resetPassword($userId, $newPassword) {
+            return $this->update($this->table, 
+                ['password' => password_hash($newPassword, PASSWORD_BCRYPT)], 
+                ['id' => $userId]
+            );
+        }
+
+        /**
+         * Delete user account
+         */
+        public function deleteAccount($userId) {
+            $this->logout();
+            return $this->delete($this->table, ['id' => $userId]);
+        }
     }

@@ -2,11 +2,13 @@
 
     namespace App\Modules\Templating;
 
+    use Exception;
+
     class Templater {
 
         public function load($template_name, $additional_data = []) {
             if (!isset($template_name)) {
-                throw new \Exception("Unable to load template - template name not specified");
+                throw new Exception("Unable to load template - template name not specified");
                 return;
             }
 
@@ -27,8 +29,33 @@
             }
 
             // if template is not found
-            throw new \Exception("Unable to load a template specified: " . $template_name);
+            throw new Exception("Unable to load a template specified: " . $template_name);
             return;
+        }
+
+        public function global($path = null, $additional_data = []) {
+            if ($path === null) {
+                throw new Exception("Unable to load path as it was not provided");
+            }
+
+            if (!empty($additional_data)) {
+                extract($additional_data);
+
+                // Ensure dependencies exist -- may limit performance
+                $Dependencies = new \App\Server\Dependencies();
+                extract($Dependencies->fetch());
+                ob_start();
+            }
+
+            $template_path = ABSPATH . "/" . $template_name . ".php";
+
+            if (file_exists($template_path)) {
+                include $template_path;
+                return;
+            }
+
+            // if template is not found
+            throw new Exception("Unable to load a template specified: " . $template_name);
         }
 
     }
