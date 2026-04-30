@@ -11,9 +11,22 @@
             .code-font { font-family: 'Fira Code', monospace; }
         </style>
     </head>
-    <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col items-center justify-center p-6">
+    <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col p-6">
 
-        <div class="max-w-3xl w-full">
+        <nav class="max-w-5xl w-full mx-auto flex items-center justify-between py-6 mb-10">
+            <div class="text-2xl font-extrabold text-slate-900">
+                Simply<span class="text-blue-600">Web</span>
+            </div>
+            <div class="flex items-center space-x-8 font-semibold text-slate-600">
+                <a href="/" class="hover:text-blue-600 transition">Dashboard</a>
+                <a href="/docs" class="hover:text-blue-600 transition">Documentation</a>
+                <a href="https://github.com/xSurden/simply-web" class="bg-slate-900 text-white px-4 py-2 rounded-full text-sm hover:bg-blue-600 transition">
+                    GitHub
+                </a>
+            </div>
+        </nav>
+
+        <div class="max-w-3xl w-full mx-auto">
             <div class="text-center mb-10">
                 <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-4 leading-tight">
                     Native PHP,
@@ -53,12 +66,11 @@
                         </div>
                     </div>
                 </div>
-            
             </div>
 
             <div class="flex justify-center space-x-6 text-sm font-semibold text-slate-400">
                 <a href="https://github.com/xSurden/simply-web" class="hover:text-blue-600 transition flex items-center gap-2">
-                    <i class="fab fa-github"></i> Github Repository
+                    Github Repository
                 </a>
                 <span class="text-slate-200">|</span>
                 <span class="cursor-default">Page loaded in <span class="text-blue-500"><?= $Env->getMicroTime() ?>ms</span></span>
