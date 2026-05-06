@@ -9,4 +9,4 @@
     // Loading example classes you can use
     $Resourcer = new \App\Server\Controller\Resourcer();
 
-    $Resourcer->get("test-folder");
+    $Resourcer->get("simple-text.php");
