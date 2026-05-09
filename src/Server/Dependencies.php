@@ -13,9 +13,12 @@
             */
 
             $this->Dependencies = [
-                "Env" => new \App\Server\Controller\Environment(),
+                "Environment" => new \App\Server\Controller\Environment(),
                 "Templater" => new \App\Modules\Templating\Templater(),
-                "Views" => new \App\Server\Handle\Views()
+                "Router" => new \App\Server\Handle\Router(),
+                "Views" => new \App\Server\Handle\Views(),
+                "Resourcer" => new \App\Server\Controller\Resourcer(),
+                "Exception" => new \App\Server\Handle\Exception()
             ];
         }
 

@@ -6,7 +6,5 @@
     Utilising the folder/file method without complicated setup.
     */
 
-    // Loading example classes you can use
-    $Resourcer = new \App\Server\Controller\Resourcer();
-
-    $Resourcer->get("simple-text.php");
+    // Render index page from resources using Resourcer
+    $Router->view("index");

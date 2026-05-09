@@ -9,11 +9,10 @@
         private $Networking;
 
         public function __construct() {
-            $Env = new \App\Server\Controller\Environment();
+            $Environment = new \App\Server\Controller\Environment();
             $this->Networking = new \App\Server\Utilities\Networking();
 
-
-            $this->Repo_URL = $Env->get("REPO_URL");
+            $this->Repo_URL = $Environment->get("REPO_URL");
             if (str_ends_with($this->Repo_URL, "/")) {
                 $this->Repo_URL = substr($this->Repo_URL, 0, -1);
             }

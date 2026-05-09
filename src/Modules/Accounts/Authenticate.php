@@ -4,7 +4,7 @@
 
     use App\Modules\Database\ElegantHandle;
 
-    class Authentication extends ElegantHandle {
+    class Authenticate extends ElegantHandle {
 
         private $tables = [
             "tbl_users",

@@ -21,10 +21,10 @@
 
         public function runCron() {
 
-            $Env = new \App\Server\Controller\Environment();
+            $Environment = new \App\Server\Controller\Environment();
 
             // Find the cache, if not exist or is null, default to 5 minutes
-            $secondsToLive = $Env->get("CACHE_CLEANUP_TIME") ?? 300;
+            $secondsToLive = $Environment->get("CACHE_CLEANUP_TIME") ?? 300;
 
             $deletedCount = 0;
             $now = time();

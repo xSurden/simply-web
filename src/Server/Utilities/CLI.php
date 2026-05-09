@@ -10,6 +10,11 @@
          * @param string $method     The method to fire (e.g., 'run' or 'on')
          */
 
+        public function __construct() {
+            $Dependencies = new \App\Server\Dependencies();
+            $Dependencies->fetch();
+        }
+
         public function run($class_name = null, $method = null) {
             try {
                 if (!$class_name || !$method) {

@@ -1,0 +1,1 @@
+Index page rendered by resourcer

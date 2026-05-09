@@ -11,7 +11,7 @@
 
         public function load($view_name = null, $dependencies = []) {
             if ($view_name === null) {
-                throw new Exception("Unable to load view: Not provided");
+                throw new \Exception("Unable to load view: Not provided");
             }
 
             $path_built = $this->default_route . $view_name . ".php";
@@ -29,7 +29,7 @@
                 return true;
             }
 
-            throw new Exception("Unable to load view: view file not found");
+            throw new \Exception("Unable to load view: view file not found");
         }
 
     }

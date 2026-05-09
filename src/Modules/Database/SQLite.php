@@ -20,7 +20,7 @@
                 $this->connection->exec("PRAGMA foreign_keys = ON;");
                 
             } catch (PDOException $e) {
-                throw new Exception("Unable to connect to SQLite database: " . $e->getMessage());
+                throw new \Exception("Unable to connect to SQLite database: " . $e->getMessage());
             }
         }
 
