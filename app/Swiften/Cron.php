@@ -11,6 +11,7 @@
         }
 
         public function run() {
+            echo "\nRunning cron functions...\n\n";
             $this->Package->run();
         }
 
