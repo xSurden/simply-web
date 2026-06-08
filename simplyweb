@@ -1,67 +1,69 @@
 #!/usr/bin/php
 <?php
 
-    if (!defined('ABSPATH')) {
-        define('ABSPATH', __DIR__);
-    }
+    die("simplyweb helper class is now decapitated. Use swiften instead.\nE.g. php swiften App:Maintenance on");
 
-    require_once __DIR__ . '/vendor/autoload.php'; 
+    // if (!defined('ABSPATH')) {
+    //     define('ABSPATH', __DIR__);
+    // }
 
-    $Pkg = new \App\Server\Utilities\CLI();
+    // require_once __DIR__ . '/vendor/autoload.php'; 
 
-    $command = $argv[1] ?? null;
+    // $Pkg = new \App\Server\Utilities\Cli();
 
-    if (!$command) {
-        die("Usage: simplyweb [command]\n");
-    }
+    // $command = $argv[1] ?? null;
 
-    switch ($command) {
+    // if (!$command) {
+    //     die("Usage: simplyweb [command]\n");
+    // }
 
-
-        /*
-        System section
-        */
-        case "app:system:loadModules":
-            if ($Pkg->run("App\Server\LoadModules", "load")) {
-                echo "Loaded Modules\n";
-            } else {
-                die("Unable to run LoadModules->load()\n");
-            }
-            break;
-
-        /*
-        Maintenance Section
-        */
-        case "app:maintenance:on":
-            if ($Pkg->run("App\Server\Utilities\Maintenance", "on")) {
-                echo "Enabled maintenance mode\n";
-            } else {
-                die("Unable to enable maintenance mode\n");
-            }
-            break; 
-
-        case "app:maintenance:off":
-            if ($Pkg->run("App\Server\Utilities\Maintenance", "off")) {
-                echo "Disabled maintenance mode\n";
-            } else {
-                die("Unable to disable maintenance mode\n");
-            }
-            break; 
+    // switch ($command) {
 
 
-        /*
-        Cron jobs section
-        Will be able to use app:cron:run
-        */
+    //     /*
+    //     System section
+    //     */
+    //     case "app:system:loadModules":
+    //         if ($Pkg->run("App\Server\LoadModules", "load")) {
+    //             echo "Loaded Modules\n";
+    //         } else {
+    //             die("Unable to run LoadModules->load()\n");
+    //         }
+    //         break;
 
-        case "app:cron:run":
-            if ($Pkg->run("App\Server\Utilities\Cron", "run")) {
-                echo "Cron Job has ran successfully\n";
-                break;
-            } else {
-                die("Unable to run cron job\n");
-            }
+    //     /*
+    //     Maintenance Section
+    //     */
+    //     case "app:maintenance:on":
+    //         if ($Pkg->run("App\Server\Utilities\Maintenance", "on")) {
+    //             echo "Enabled maintenance mode\n";
+    //         } else {
+    //             die("Unable to enable maintenance mode\n");
+    //         }
+    //         break; 
 
-        default:
-            die("Error: Unknown command '$command'\n");
-    }
+    //     case "app:maintenance:off":
+    //         if ($Pkg->run("App\Server\Utilities\Maintenance", "off")) {
+    //             echo "Disabled maintenance mode\n";
+    //         } else {
+    //             die("Unable to disable maintenance mode\n");
+    //         }
+    //         break; 
+
+
+    //     /*
+    //     Cron jobs section
+    //     Will be able to use app:cron:run
+    //     */
+
+    //     case "app:cron:run":
+    //         if ($Pkg->run("App\Server\Utilities\Cron", "run")) {
+    //             echo "Cron Job has ran successfully\n";
+    //             break;
+    //         } else {
+    //             die("Unable to run cron job\n");
+    //         }
+
+    //     default:
+    //         die("Error: Unknown command '$command'\n");
+    // }

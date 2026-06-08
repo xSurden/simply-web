@@ -1,0 +1,22 @@
+#!/usr/bin/php
+<?php
+
+    // Recreate the abs path if required
+    if (!defined('ABSPATH')) {
+        define('ABSPATH', __DIR__);
+    }
+
+    // Composer library
+    require_once __DIR__ . '/vendor/autoload.php'; 
+
+    // Initiate Cli package
+    // Note: PHP is case-insensitive with class names, but matching 'Cli' keeps it PSR compliant
+    $Package = new \App\Server\Utilities\Cli();
+
+    // Capture arguments from the terminal
+    // php swiften [Maintenance] [on]
+    $command = $argv[1] ?? null; // e.g., 'Maintenance'
+    $method  = $argv[2] ?? null; // e.g., 'on', 'off' (or null to toggle)
+
+    // Pass both parameters to the Cli class
+    $Package->command($command, $method);

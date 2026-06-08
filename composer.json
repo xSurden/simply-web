@@ -5,7 +5,8 @@
         "psr-4": {
             "App\\Server\\": "src/Server/",
             "App\\Modules\\": "src/Modules/",
-            "App\\Addons\\": "Addons/"
+            "App\\Addons\\": "Addons/",
+            "App\\Swiften\\": "app/Swiften"
         }
     },
     "authors": [
