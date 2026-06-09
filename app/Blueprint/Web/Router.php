@@ -4,6 +4,18 @@
 
     class Router {
 
+        // Store the registered routes
+        protected static $routes = [];
+
+        /**
+         * Register a GET route explicitly mapping a URI to a view file
+         */
+        public static function get($uri, $viewPath) {
+            // Clean up the URI to ensure uniform matching (e.g., /dashboard or dashboard)
+            $uri = '/' . trim($uri, '/');
+            self::$routes[$uri] = $viewPath;
+        }
+
         public function view($path = null, $data = []) {
             if ($path === null) {
                 throw new \Exception("Unable to load the view as it is not set");
@@ -26,38 +38,31 @@
 
         public function capture($Dependencies = []) {
             /*
-            This method is responsible for how each request handles data,
-            now supporting both direct files and directory-based routing.
+            This method now loads the explicit route definitions first,
+            then checks if the current URI matches any of them.
             */
 
+            // 1. Load the explicit routes file
+            $webRoutesFile = ABSPATH . "/routes/Web.php";
+            if (file_exists($webRoutesFile)) {
+                include_once $webRoutesFile;
+            }
+
             $Uri = self::getRoute();
-            
-            if ($Uri === "/") {
-                $Uri = "/index";
-            }
 
-            // Prepare dependencies for the included route files
-            if (!empty($Dependencies)) {
-                extract($Dependencies);
-            }
-
-            $basePath = ABSPATH . "/routes" . $Uri;
-            $fileRoute = $basePath . ".php";
-            $folderRoute = $basePath . "/index.php";
-
-            if (file_exists($fileRoute)) {
-                include $fileRoute;
-                return;
-            } 
-            
-            if (is_dir($basePath) && file_exists($folderRoute)) {
-                include $folderRoute;
+            // 2. Check if the requested URI is explicitly defined
+            if (array_key_exists($Uri, self::$routes)) {
+                $viewPath = self::$routes[$Uri];
+                
+                // Render the mapped view path
+                $this->view($viewPath, $Dependencies);
                 return;
             }
 
-            if (isset($Templater)) {
+            // 3. Fallback to 404 if no explicit route matches
+            if (isset($Dependencies['Templater'])) {
                 $data = ["route" => self::getRoute()];
-                $Templater->load("server/404", $data);
+                $Dependencies['Templater']->load("server/404", $data);
             } else {
                 http_response_code(404);
                 die("404 - Page not found");
