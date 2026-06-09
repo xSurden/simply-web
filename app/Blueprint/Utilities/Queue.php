@@ -4,7 +4,7 @@
 
     class Queue {
 
-        private $queueFile = ABSPATH . "/server/data/app/queue.sql";
+        private $queueFile = ABSPATH . "/server/data/app/schema.sql";
         private $db;
 
         /*
@@ -38,7 +38,7 @@
                 $this->db->exec($sql);
 
             } catch (\PDOException $e) {
-                die("Queue Initialization Error: " . $e->getMessage() . "\n");
+                throw new \Exception("Queue Initialization Error: " . $e->getMessage() . "\n");
             }
         }
 

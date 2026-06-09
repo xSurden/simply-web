@@ -11,15 +11,16 @@
 
         /**
          * Handles the execution of a CLI command.
-         * * @param string|null $command The Swiften module name (e.g., 'Maintenance')
-         * @param string|null $method  The action to perform (e.g., 'on', 'off', 'status')
+         * * @param string|null $command The Swiften module name (e.g., 'Maintenance', 'LocalStorage')
+         * @param string|null $method  The action to perform (e.g., 'on', 'getvalue')
+         * @param mixed       ...$args Any trailing arguments passed via terminal (e.g. key names)
          */
-        public function command($command = null, $method = null) {
+        public function command($command = null, $method = null, ...$args) {
             if (!$command) {
-                die("\nError: Command (module name) is not defined.\nUsage: php swiften [ModuleName] [MethodName]\nExample: php swiften Maintenance on\n\n");
+                die("\nError: Command (module name) is not defined.\nUsage: php swiften [ModuleName] [MethodName] [Arguments...]\nExample: php swiften Maintenance on\n\n");
             }
 
-            // Format the class name (e.g., maintenance -> Maintenance)
+            // Format the class name (e.g., localstorage -> LocalStorage)
             $swiftenModule = ucfirst(strtolower($command));
             $filePath = ABSPATH . "/app/Swiften/" . $swiftenModule . ".php";
 
@@ -45,15 +46,18 @@
             $instance = new $className();
 
             // Determine the action method: Use user input if provided, otherwise default to 'toggle'
-            $action = $method ? strtolower($method) : 'toggle';
+            // Keeping it lowercase/preserving case depending on how you name methods. 
+            // Using regular input case or lowercase depending on preference.
+            $action = $method ? $method : 'toggle';
 
             // Check if the method exists on the target class
             if (!method_exists($instance, $action)) {
-                die("\nError: '{$swiftenModule}' does not have default/togglable method.\n\n");
+                die("\nError: '{$swiftenModule}' does not have a '{$action}' method.\n\n");
             }
 
-            // Execute the action
-            $instance->$action();
+            // Execute the action, unpacking any extra trailing parameters into it
+            $instance->$action(...$args);
+            
             echo "\n"; // Just a clean line break for the terminal output
         }
     }
