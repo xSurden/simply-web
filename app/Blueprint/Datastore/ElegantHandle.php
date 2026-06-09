@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Modules\Database;
+    namespace App\Blueprint\Datastore;
 
     use PDO;
 
@@ -10,7 +10,7 @@
 
         public function __construct()
         {
-            $DB = new \App\Modules\Database\DB();
+            $DB = new \App\Blueprint\Datastore\MySQL();
             $this->conn = $DB->createConnection();
         }
 

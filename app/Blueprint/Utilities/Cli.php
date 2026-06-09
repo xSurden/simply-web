@@ -1,11 +1,11 @@
 <?php
 
-    namespace App\Server\Utilities;
+    namespace App\Blueprint\Utilities;
 
     class Cli {
 
         public function __construct() {
-            $Dependencies = new \App\Server\Dependencies();
+            $Dependencies = new \App\Blueprint\Web\Dependencies();
             $Dependencies->fetch();
         }
 

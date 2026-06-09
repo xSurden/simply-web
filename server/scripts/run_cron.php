@@ -5,7 +5,7 @@
     require_once ABSPATH . "/vendor/autoload.php";
 
     try {
-        $CronPkg = new \App\Server\Utilities\Cron();
+        $CronPkg = new \App\Blueprint\Utilities\Cron();
         $CronPkg->run();
         
         echo "[" . date('Y-m-d H:i:s') . "] Cron executed successfully.\n";

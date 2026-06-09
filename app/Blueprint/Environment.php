@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Server\Controller;
+    namespace App\Blueprint;
     
     use Dotenv\Dotenv;
 

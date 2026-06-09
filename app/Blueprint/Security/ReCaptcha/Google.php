@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Modules\Security\ReCaptcha;
+    namespace App\Blueprint\Security\ReCaptcha;
 
     class Google {
 

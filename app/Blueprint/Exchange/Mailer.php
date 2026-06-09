@@ -1,9 +1,9 @@
 <?php
 
-    namespace App\Modules\Email;
+    namespace App\Blueprint\Exchange;
 
-use Exception;
-use PHPMailer\PHPMailer\PHPMailer;
+    use Exception;
+    use PHPMailer\PHPMailer\PHPMailer;
 
     class Mailer {
 
@@ -22,7 +22,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
             // Check if the env is set - if not, initialise a new instance
             if (!isset($Env)) {
-                $this->Environment = new \App\Server\Controller\Environment();
+                $this->Environment = new \App\Blueprint\Environment();
             } else {
                 $this->Environment = $Env;
             }

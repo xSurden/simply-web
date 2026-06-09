@@ -9,7 +9,7 @@
 
     // require_once __DIR__ . '/vendor/autoload.php'; 
 
-    // $Pkg = new \App\Server\Utilities\Cli();
+    // $Pkg = new \App\Blueprint\Utilities\Cli();
 
     // $command = $argv[1] ?? null;
 
@@ -24,7 +24,7 @@
     //     System section
     //     */
     //     case "app:system:loadModules":
-    //         if ($Pkg->run("App\Server\LoadModules", "load")) {
+    //         if ($Pkg->run("App\Blueprint\LoadModules", "load")) {
     //             echo "Loaded Modules\n";
     //         } else {
     //             die("Unable to run LoadModules->load()\n");
@@ -35,7 +35,7 @@
     //     Maintenance Section
     //     */
     //     case "app:maintenance:on":
-    //         if ($Pkg->run("App\Server\Utilities\Maintenance", "on")) {
+    //         if ($Pkg->run("App\Blueprint\Utilities\Maintenance", "on")) {
     //             echo "Enabled maintenance mode\n";
     //         } else {
     //             die("Unable to enable maintenance mode\n");
@@ -43,7 +43,7 @@
     //         break; 
 
     //     case "app:maintenance:off":
-    //         if ($Pkg->run("App\Server\Utilities\Maintenance", "off")) {
+    //         if ($Pkg->run("App\Blueprint\Utilities\Maintenance", "off")) {
     //             echo "Disabled maintenance mode\n";
     //         } else {
     //             die("Unable to disable maintenance mode\n");
@@ -57,7 +57,7 @@
     //     */
 
     //     case "app:cron:run":
-    //         if ($Pkg->run("App\Server\Utilities\Cron", "run")) {
+    //         if ($Pkg->run("App\Blueprint\Utilities\Cron", "run")) {
     //             echo "Cron Job has ran successfully\n";
     //             break;
     //         } else {

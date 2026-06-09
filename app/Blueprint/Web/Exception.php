@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Server\Handle;
+    namespace App\Blueprint\Web;
 
     class Exception {
         public function new($text = null) {

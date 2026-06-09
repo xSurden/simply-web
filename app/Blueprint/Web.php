@@ -1,26 +1,26 @@
 <?php
 
-    namespace App\Server;
+    namespace App\Blueprint;
 
     class Web {
 
-        private $Route;
+        private $Router;
         private $Env;
         private $Dependencies;
         private $Maintenance;
-        private $Templater;
+        private $Template;
 
         public function __construct() {
             // Ensure environment file exists
-            if (!\App\Server\Controller\Environment::load()) {
+            if (!\App\Blueprint\Environment::load()) {
                 die("Unable to find the environment file!");
             }
 
-            $this->Env = new \App\Server\Controller\Environment();
-            $this->Maintenance = new \App\Server\Utilities\Maintenance();
-            $this->Route = new \App\Server\Handle\Route();
-            $this->Dependencies = new \App\Server\Dependencies();
-            $this->Templater = new \App\Modules\Templating\Templater();
+            $this->Env = new \App\Blueprint\Environment();
+            $this->Router = new \App\Blueprint\Web\Router();
+            $this->Maintenance = new \App\Blueprint\Utilities\Maintenance();
+            $this->Dependencies = new \App\Blueprint\Web\Dependencies();
+            $this->Template = new \App\Blueprint\Web\Template();
         }
 
         
@@ -37,7 +37,7 @@
 
             // Check if maintenance is enabled
             if ($this->Maintenance->status()) {
-                $this->Templater->load("server/maintenance", $this->Dependencies->fetch());
+                $this->Template->load("server/maintenance", $this->Dependencies->fetch());
                 die;
             }
 
@@ -70,21 +70,21 @@
             ]);
 
 
-            // Fetch route try -> catch
+            // Fetch Router try -> catch
             try {
-                $this->Route->capture($this->Dependencies->fetch());
+                $this->Router->capture($this->Dependencies->fetch());
             } catch (\Throwable $e) {
                 // Log the error to web server
                 error_log($e->getMessage());
 
-                if (!class_exists('\App\Modules\Templating\Templater')) {
+                if (!class_exists('\App\Blueprint\Web\Template')) {
                     die("Fatal Error: Templater class missing. Original error: " . $e->getMessage());
                 }
                 $data = [
                     "server_error_message" => $e->getMessage(),
                     "server_error_trace" => $e->getTraceAsString()
                 ];
-                $this->Templater->load("server/server_error", $data);
+                $this->Template->load("server/server_error", $data);
             }
                         
         }

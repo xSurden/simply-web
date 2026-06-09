@@ -25,7 +25,7 @@
     /*
     Start of the application
     */
-    $WebServer = new \App\Server\Web();
+    $WebServer = new \App\Blueprint\Web();
     $WebServer->Start();
 
 ?>

@@ -1,10 +1,10 @@
 <?php 
 
-    namespace App\Modules\Database;
+    namespace App\Blueprint\Datastore;
 
-    use App\Server\Controller\Environment;
+    use App\Blueprint\Environment;
 
-    class DB {
+    class MySQL {
 
         private $env;
         private $host;

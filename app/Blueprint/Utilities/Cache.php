@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Server\Utilities;
+    namespace App\Blueprint\Utilities;
 
     class Cache {
 
@@ -21,7 +21,7 @@
 
         public function runCron() {
 
-            $Environment = new \App\Server\Controller\Environment();
+            $Environment = new \App\Blueprint\Environment();
 
             // Find the cache, if not exist or is null, default to 5 minutes
             $secondsToLive = $Environment->get("CACHE_CLEANUP_TIME") ?? 300;

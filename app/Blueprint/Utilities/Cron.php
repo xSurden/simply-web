@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Server\Utilities;
+    namespace App\Blueprint\Utilities;
 
     class Cron {
 

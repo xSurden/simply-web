@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Modules\Database;
+    namespace App\Blueprint\Datastore;
 
     class Migrations {
 
@@ -9,7 +9,7 @@
         public function __construct()
         {
             if (!isset($ElegantHandle)) {
-                $this->ElegantHandle = new \App\Modules\Database\ElegantHandle();
+                $this->ElegantHandle = new \App\Blueprint\Datastore\ElegantHandle();
             }
         }
 

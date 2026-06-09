@@ -11,7 +11,7 @@
 
     // Initiate Cli package
     // Note: PHP is case-insensitive with class names, but matching 'Cli' keeps it PSR compliant
-    $Package = new \App\Server\Utilities\Cli();
+    $Package = new \App\Blueprint\Utilities\Cli();
 
     // Capture arguments from the terminal
     // php swiften [Maintenance] [on]

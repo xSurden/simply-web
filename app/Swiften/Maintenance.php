@@ -7,7 +7,7 @@
         private $Package;
 
         public function __construct() {
-            $this->Package = new \App\Server\Utilities\Maintenance();
+            $this->Package = new \App\Blueprint\Utilities\Maintenance();
         }
 
         public function on() {

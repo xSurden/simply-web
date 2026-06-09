@@ -1,10 +1,10 @@
 <?php
 
-    namespace App\Modules\Templating;
+    namespace App\Blueprint\Web;
 
     use Exception;
 
-    class Templater {
+    class Template {
 
         public function load($template_name, $additional_data = []) {
             if (!isset($template_name)) {
@@ -16,7 +16,7 @@
                 extract($additional_data);
 
                 // Ensure dependencies exist -- may limit performance
-                $Dependencies = new \App\Server\Dependencies();
+                $Dependencies = new \App\Blueprint\Web\Dependencies();
                 extract($Dependencies->fetch());
                 ob_start();
             }
@@ -42,7 +42,7 @@
                 extract($additional_data);
 
                 // Ensure dependencies exist -- may limit performance
-                $Dependencies = new \App\Server\Dependencies();
+                $Dependencies = new \App\Blueprint\Web\Dependencies();
                 extract($Dependencies->fetch());
                 ob_start();
             }

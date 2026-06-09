@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Server;
+    namespace App\Blueprint\Web;
 
     class LoadModules {
 
@@ -14,7 +14,7 @@
             // Check if SQL for crons exists
 
             // Load required modules
-            $Cache = new \App\Server\Utilities\Cache();
+            $Cache = new \App\Blueprint\Utilities\Cache();
 
 
             // If all is fine, return true;

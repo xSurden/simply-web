@@ -1,7 +1,7 @@
 <?php
 
 
-    namespace App\Server\Handle;
+    namespace App\Blueprint\Web;
 
     use Exception;
 
@@ -21,7 +21,7 @@
                     extract($dependencies);
 
                     // Ensure dependencies exist -- may limit performance
-                    $Dependencies = new \App\Server\Dependencies();
+                    $Dependencies = new \App\Blueprint\Web\Dependencies();
                     extract($Dependencies->fetch());
                     ob_start();
                 }

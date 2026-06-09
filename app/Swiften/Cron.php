@@ -7,7 +7,7 @@
         private $Package;
 
         public function __construct() {
-            $this->Package = new \App\Server\Utilities\Cron();
+            $this->Package = new \App\Blueprint\Utilities\Cron();
         }
 
         public function run() {

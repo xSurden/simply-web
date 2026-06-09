@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Modules\Security;
+    namespace App\Blueprint\Security;
 
     class CSRF {
 
