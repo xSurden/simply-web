@@ -11,7 +11,7 @@
     class LocalStorage {
 
         private $db;
-        private $localServerVariablesFile = ABSPATH . "/server/data/app/schema.sql";
+        private $localServerVariablesFile = ABSPATH . "/server/data/app/schema.sqlite";
         private $localSchema = "
             CREATE TABLE IF NOT EXISTS server_variables (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,8 +26,6 @@
         public function __construct() {
 
             try {
-
-                // Ensure the directory exists before attempting to create/open the SQLite file
                 $dir = dirname($this->localServerVariablesFile);
                 if (!is_dir($dir)) {
                     mkdir($dir, 0755, true);
@@ -41,16 +39,12 @@
             } catch (\PDOException $e) {
                 throw new \Exception("Queue Initialization Error: " . $e->getMessage() . "\n");
             }
-
         }
 
         /**
          * Fetch a variable's value by its name.
-         * * @param string|null $valueName
-         * @return string|null
          */
         public function getValue($valueName = null) {
-
             if ($valueName === null) {
                 return null;
             }
@@ -60,8 +54,6 @@
                 $stmt->execute([':valueName' => $valueName]);
                 
                 $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-                
-                // Return the data if found, otherwise null
                 return $result ? $result['valueData'] : null;
 
             } catch (\PDOException $e) {
@@ -71,10 +63,6 @@
 
         /**
          * Store or update a variable's value. 
-         * Uses an UPSERT (INSERT ... ON CONFLICT) to update cleanly if the key already exists.
-         * * @param string $valueName
-         * @param string|null $valueData
-         * @return bool
          */
         public function setValue($valueName, $valueData = null) {
             if (empty($valueName)) {
@@ -84,7 +72,6 @@
             $now = time();
 
             try {
-                // SQLite 3.24.0+ supports ON CONFLICT syntax natively
                 $sql = "
                     INSERT INTO server_variables (valueName, valueData, created_at, updated_at)
                     VALUES (:valueName, :valueData, :created_at, :updated_at)
@@ -103,6 +90,84 @@
 
             } catch (\PDOException $e) {
                 throw new \Exception("Error setting variable '{$valueName}': " . $e->getMessage());
+            }
+        }
+
+        /**
+         * Explicitly update an existing variable's value.
+         */
+        public function updateValue($valueName, $valueData = null) {
+            if (empty($valueName)) {
+                return false;
+            }
+
+            $now = time();
+
+            try {
+                $sql = "UPDATE server_variables SET valueData = :valueData, updated_at = :updated_at WHERE valueName = :valueName";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([
+                    ':valueName'  => $valueName,
+                    ':valueData'  => $valueData,
+                    ':updated_at' => $now
+                ]);
+
+                return $stmt->rowCount() > 0;
+
+            } catch (\PDOException $e) {
+                throw new \Exception("Error updating variable '{$valueName}': " . $e->getMessage());
+            }
+        }
+
+        /**
+         * Delete a variable entirely from the database store.
+         * * @param string $valueName
+         * @return bool True if deleted, False if it didn't exist
+         */
+        public function dropValue($valueName) {
+            if (empty($valueName)) {
+                return false;
+            }
+
+            try {
+                $stmt = $this->db->prepare("DELETE FROM server_variables WHERE valueName = :valueName");
+                $stmt->execute([':valueName' => $valueName]);
+
+                return $stmt->rowCount() > 0;
+            } catch (\PDOException $e) {
+                throw new \Exception("Error deleting variable '{$valueName}': " . $e->getMessage());
+            }
+        }
+
+        /**
+         * Verify if a key exists in the storage regardless of whether its value is NULL.
+         * * @param string $valueName
+         * @return bool
+         */
+        public function hasValue($valueName) {
+            if (empty($valueName)) {
+                return false;
+            }
+
+            try {
+                $stmt = $this->db->prepare("SELECT 1 FROM server_variables WHERE valueName = :valueName LIMIT 1");
+                $stmt->execute([':valueName' => $valueName]);
+                return (bool) $stmt->fetchColumn();
+            } catch (\PDOException $e) {
+                return false;
+            }
+        }
+
+        /**
+         * Grab everything inside the data table. Highly useful for building control panels or tables.
+         * * @return array Key-value pair array of all data
+         */
+        public function getAllValues() {
+            try {
+                $stmt = $this->db->query("SELECT valueName, valueData FROM server_variables ORDER BY valueName ASC");
+                return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR) ?: [];
+            } catch (\PDOException $e) {
+                return [];
             }
         }
     }

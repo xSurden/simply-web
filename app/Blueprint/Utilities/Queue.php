@@ -4,11 +4,11 @@
 
     class Queue {
 
-        private $queueFile = ABSPATH . "/server/data/app/schema.sql";
+        private $queueFile = ABSPATH . "/server/data/app/schema.sqlite";
         private $db;
 
         /*
-        Check if the queue.sql file exists within the server and initialize the schema
+        Check if the queue.sqlite file exists within the server and initialize the schema
         */
         public function __construct() {
 
