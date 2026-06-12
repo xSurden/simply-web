@@ -1,10 +1,12 @@
 <?php
+    $recaptcha = new \App\Blueprint\Security\ReCaptcha\Google();
+?>
 
-    $Package = new \App\Blueprint\Datastore\LocalStorage();
+<form action="submit.php" method="POST">
+    <label>Email Address</label>
+    <input type="email" name="email" required>
 
-    echo "V2 Key: " . $Package->getValue("app.security.recaptcha.google.v2.site_key") . "<br>";
-    echo "V2 Secret: " . $Package->getValue("app.security.recaptcha.google.v2.secret_key") . "<br>";
+    <?php echo $recaptcha->loadV2(); ?>
 
-    echo "V3 Key: " . $Package->getValue("app.security.recaptcha.google.v3.site_key") . "<br>";
-    echo "V3 Secret: " . $Package->getValue("app.security.recaptcha.google.v3.secret_key") . "<br>";
-    echo "V3 Threshold: " . $Package->getValue("app.security.recaptcha.google.v3.threshold") . "<br>";
+    <button type="submit">Sign In</button>
+</form>

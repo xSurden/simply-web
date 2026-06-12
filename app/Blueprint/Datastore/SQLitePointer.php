@@ -5,7 +5,10 @@
     class SQLitePointer {
 
         protected $db;
-        private $localServerVariablesFile = ABSPATH . "/server/data/app/schema.sqlite";
+        
+        // Changing this from private to protected allows extending subclasses 
+        // to see it or safely override it if needed.
+        protected $localServerVariablesFile = ABSPATH . "/server/data/storage/schema.sqlite";
 
         /**
          * Constructor sets up database connection and executes any class-specific initialization schemas.
@@ -18,6 +21,7 @@
                     mkdir($dir, 0755, true);
                 }
 
+                // Secure the database assignment handle
                 $this->db = new \PDO("sqlite:" . $this->localServerVariablesFile);
                 $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
