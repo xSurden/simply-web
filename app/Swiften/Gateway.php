@@ -7,7 +7,7 @@
         private $Package;
 
         public function __construct() {
-            $this->Package = new \App\Frame\Server\Gateway();
+            $this->Package = new \App\Frame\Gateway();
         }
 
         public function runSchema($file = null) {

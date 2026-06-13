@@ -1,5 +1,5 @@
 <?php
 
-    $Gateway = new \App\Frame\Server\Gateway();
+    $Gateway = new \App\Frame\Gateway();
 
     echo $Gateway->runCommand("ipconfig");
