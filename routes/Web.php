@@ -9,6 +9,10 @@
     */
     Router::get('/', 'home');
 
+    // Authentication
+    Router::get("/login", "identity/login");
+    Router::get("/register", "identity/register");
+
     // Route for server-side command execution test
     Router::get("/exec", "exec");
 

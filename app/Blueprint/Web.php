@@ -42,17 +42,18 @@
             }
 
             /*
-            This is the CSP protection script
-            Currently you can load in Tailwind CSS, google fonts and your local files
-            Other sources will be blocked unless specified below.
+            Reads environment status to decide whether to skip, enforce, or fail.
             */
-            header("Content-Security-Policy: default-src 'self'; " .
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://cdn.tailwindcss.com; " .
-            "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.google.com https://www.gstatic.com; " .
-            "frame-src https://www.google.com; " . 
-            "font-src 'self' https://fonts.gstatic.com; " .
-            "img-src 'self' data: https://www.gstatic.com; " .
-            "object-src 'none';");
+
+            if ($this->Env->get("APP_ENV") === null || trim($this->Env->get("APP_ENV")) === '') {
+                throw new \Exception("Configuration Error: 'APP_ENV' is not specified in the system configuration.");
+            }
+
+            if (strtolower($this->Env->get("APP_ENV")) === "production") {
+                include ABSPATH . "/config/CSP.php";
+            } elseif (strtolower($this->Env->get("APP_ENV")) !== "development") {
+                throw new \Exception("Configuration Error: Invalid application environment value specified: '{$this->Env->get("APP_ENV")}'. Expected 'development' or 'production'.");
+            }
 
             
             /*
