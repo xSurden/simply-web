@@ -2,47 +2,43 @@
 
     namespace App\Blueprint\Security\ReCaptcha;
 
-    class Google {
+    use App\Blueprint\Datastore\LocalStorage;
+    
+    class Google extends LocalStorage {
 
-        private $ConfigRepo = ABSPATH . "/server/data/modules/google_recaptcha/config.php";
         private $Credentials_v2;
+        private $Credentials_v2_Secret;
         private $Credentials_v3;
+        private $Credentials_v3_Secret;
         private $Threshold;
 
         public function __construct() {
-            if (!file_exists($this->ConfigRepo)) {
-                throw new \Exception("Configuration file for Google ReCaptcha Server Module was not found.");
-            }
+            
+            $this->Credentials_v2 = $this->getValue("app.security.recaptcha.google.v2.site_key") ?? null;
+            $this->Credentials_v2_Secret = $this->getValue("app.security.recaptcha.google.v2.secret_key") ?? null;
+            
+            $this->Credentials_v3 = $this->getValue("app.security.recaptcha.google.v3.site_key") ?? null;
+            $this->Credentials_v3_Secret = $this->getValue("app.security.recaptcha.google.v2.secret_key") ?? null;
+            $this->Threshold = $this->getValue("app.security.recaptcha.google.v3.threshold") ?? 0.5;
 
-            $ConfigData = require $this->ConfigRepo;
-
-            if (!is_array($ConfigData)) {
-                throw new \Exception("Invalid configuration format.");
-            }
-
-            $this->Credentials_v2 = $ConfigData["site_v2"] ?? [];
-            $this->Credentials_v3 = $ConfigData["site_v3"] ?? [];
-            $this->Threshold = $ConfigData["site_v3"]["threshold"] ?? 0.5;
         }
 
-        public function loadv2() {
-            $siteKey = $this->Credentials_v2["site_key"] ?? null;
-            if (!$siteKey) return "";
+        public function loadV2() {
+            if (!$this->Credentials_v2) return "";
 
             $html = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
-            $html .= '<div class="g-recaptcha" data-sitekey="' . htmlspecialchars($siteKey) . '"></div>';
+            $html .= '<div class="g-recaptcha" data-sitekey="' . htmlspecialchars($this->Credentials_v2) . '"></div>';
 
             return $html;
         }
 
-        public function loadv3(string $action) {
-            $siteKey = $this->Credentials_v3["site_key"] ?? null;
-            if (!$siteKey) return "";
+        public function loadV3(string $action) {
+            if (!$this->Credentials_v3) return "";
 
-            $html = '<script src="https://www.google.com/recaptcha/api.js?render=' . htmlspecialchars($siteKey) . '"></script>';
+            $html = '<script src="https://www.google.com/recaptcha/api.js?render=' . htmlspecialchars($this->Credentials_v3) . '"></script>';
             $html .= '<script>
                 grecaptcha.ready(function() {
-                    grecaptcha.execute("' . htmlspecialchars($siteKey) . '", {action: "' . $action . '"}).then(function(token) {
+                    grecaptcha.execute("' . htmlspecialchars($this->Credentials_v3) . '", {action: "' . $action . '"}).then(function(token) {
                         var recaptchaResponse = document.getElementById("g-recaptcha-response-v3");
                         if(recaptchaResponse) { recaptchaResponse.value = token; }
                     });
@@ -53,13 +49,12 @@
             return $html;
         }
 
-        public function verify_v2($response) {
-            return $this->performVerify($this->Credentials_v2["secret_key"] ?? null, $response);
+        public function verifyV2($response) {
+            return $this->performVerify($this->Credentials_v2_Secret, $response);
         }
 
-        public function verify_v3($response) {
-            $secretKey = $this->Credentials_v3["secret_key"] ?? null;
-            $result = $this->performVerify($secretKey, $response);
+        public function verifyV3($response) {
+            $result = $this->performVerify($this->Credentials_v3_Secret, $response);
 
             if ($result && isset($result->success) && $result->success && isset($result->score) && $result->score >= $this->Threshold) {
                 return true;
@@ -93,4 +88,5 @@
             
             return json_decode($verify);
         }
+
     }

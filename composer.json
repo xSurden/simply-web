@@ -5,6 +5,7 @@
         "psr-4": {
             "App\\Swiften\\": "app/Swiften",
             "App\\Blueprint\\": "app/Blueprint",
+            "App\\Frame\\": "app/Frame",
             "App\\Plugins\\": "Plugins"
         }
     },
