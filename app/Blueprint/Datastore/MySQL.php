@@ -13,6 +13,8 @@
         private $password;
         private $DB_name;
 
+        private static ?\PDO $conn = null;
+
         public function __construct()
         {
             $this->env = new Environment();
@@ -25,15 +27,17 @@
         }
 
         public function createConnection() {
-            try {
-                $dsn = "mysql:host=$this->host;dbname=$this->DB_name;port=$this->port;charset=utf8mb4";
-                
-                $conn = new \PDO($dsn, $this->user, $this->password);
-                $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                return $conn;
-            } catch (\PDOException $e) {
-                throw new \Exception("Database Connection Failure: " . $e->getMessage());
+
+            if (self::$conn !== null) {
+                return self::$conn;
             }
+
+            $dsn = "mysql:host={$this->host};dbname={$this->DB_name};port={$this->port};charset=utf8mb4";
+
+            self::$conn = new \PDO($dsn, $this->user, $this->password);
+            self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            return self::$conn;
         }
 
     }

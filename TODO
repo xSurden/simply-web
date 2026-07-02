@@ -1,2 +1,3 @@
 Integrate Views.php into Router.php inside of Blueprint\Web
 Include \App\Blueprint\Modules\Identity -> it is account authentication library.
+Make ElegantSQL work without destroying data integrity (because it sanitizes before storing - break things)
