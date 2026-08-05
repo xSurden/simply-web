@@ -1,19 +1,71 @@
-<?php
-
+<?
     namespace App\Blueprint\Web;
 
     class Router {
 
-        // Store the registered routes
         protected static $routes = [];
+        protected static $lastRouteUri = null; // Track the most recently added route for chaining
 
-        /**
-         * Register a GET route explicitly mapping a URI to a view file
-         */
         public static function get($uri, $viewPath) {
-            // Clean up the URI to ensure uniform matching (e.g., /dashboard or dashboard)
             $uri = '/' . trim($uri, '/');
-            self::$routes[$uri] = $viewPath;
+            
+            // Store route with default properties
+            self::$routes[$uri] = [
+                'view' => $viewPath,
+                'auth' => false // Default to false
+            ];
+
+            // Keep track of this URI so ->auth() knows which route to modify
+            self::$lastRouteUri = $uri;
+
+            // Return a static-friendly instance or self reference for chaining
+            // Since get is static, returning an object or using a helper works best.
+            // E.g., we can return a class instance, or just `new self()` if methods are adjusted.
+            return new static(); 
+        }
+
+        public function auth() {
+            if (self::$lastRouteUri && isset(self::$routes[self::$lastRouteUri])) {
+                self::$routes[self::$lastRouteUri]['auth'] = true;
+            }
+            return $this; // Allows further chaining if needed
+        }
+
+        public function capture($Dependencies = []) {
+            $webRoutesFile = ABSPATH . "/routes/Web.php";
+            if (file_exists($webRoutesFile)) {
+                include_once $webRoutesFile;
+            }
+
+            $Uri = self::getRoute();
+
+            if (array_key_exists($Uri, self::$routes)) {
+                $routeData = self::$routes[$Uri];
+                
+                // Check if route requires authentication
+                if ($routeData['auth']) {
+                    // Implement your check here. Assuming session or auth helper:
+                    $isLoggedIn = isset($_SESSION['user']) /* || Auth::check() */; 
+                    
+                    if (!$isLoggedIn) {
+                        header("Location: /login");
+                        exit;
+                    }
+                }
+
+                // Render the mapped view path
+                $this->view($routeData['view'], $Dependencies);
+                return;
+            }
+
+            // 3. Fallback to 404
+            if (isset($Dependencies['Templater'])) {
+                $data = ["route" => self::getRoute()];
+                $Dependencies['Templater']->load("server/404", $data);
+            } else {
+                http_response_code(404);
+                die("404 - Page not found");
+            }
         }
 
         public function view($path = null, $data = []) {
@@ -34,39 +86,6 @@
             extract($viewVariables);
 
             include $filePath;
-        }
-
-        public function capture($Dependencies = []) {
-            /*
-            This method now loads the explicit route definitions first,
-            then checks if the current URI matches any of them.
-            */
-
-            // 1. Load the explicit routes file
-            $webRoutesFile = ABSPATH . "/routes/Web.php";
-            if (file_exists($webRoutesFile)) {
-                include_once $webRoutesFile;
-            }
-
-            $Uri = self::getRoute();
-
-            // 2. Check if the requested URI is explicitly defined
-            if (array_key_exists($Uri, self::$routes)) {
-                $viewPath = self::$routes[$Uri];
-                
-                // Render the mapped view path
-                $this->view($viewPath, $Dependencies);
-                return;
-            }
-
-            // 3. Fallback to 404 if no explicit route matches
-            if (isset($Dependencies['Templater'])) {
-                $data = ["route" => self::getRoute()];
-                $Dependencies['Templater']->load("server/404", $data);
-            } else {
-                http_response_code(404);
-                die("404 - Page not found");
-            }
         }
 
         public static function getRoute() {
